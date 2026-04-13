@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GUI Terminal — терминал с графическим интерфейсом для Windows. Скачать портативную версию, посмотреть режимы работы и список встроенных команд.">
+    <title>GUI Terminal — официальный сайт</title>
+    <link rel="icon" href="static/img/favicon.ico">
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="#top">
+                <span class="brand-mark image-mark"><img src="static/img/brand-terminal.png" alt="Логотип GUI Terminal"></span>
+                <span class="brand-text">GUI Terminal</span>
+            </a>
+
+            <nav class="nav" id="navMenu">
+                <a href="#about">О приложении</a>
+                <a href="#modes">Режимы</a>
+                <a href="#commands">Команды</a>
+                <a href="#downloads">Загрузка</a>
+                <a href="#github">GitHub</a>
+                <a class="nav-cta" id="navLaunchLink" href="#downloads">Запуск</a>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero section">
+            <div class="container hero-grid">
+                <div class="hero-copy reveal">
+                    <div class="eyebrow">GUI TERMINAL · PYTHON EDITION</div>
+                    <h1>Терминал с графическим интерфейсом</h1>
+                    <p class="lead">
+                        GUI Terminal — это современная графическая оболочка над командной строкой, которая кардинально меняет привычный подход к работе с командами операционной системы.
+                        Терминал обладает богатым визуальным интерфейсом, что делает взаимодействие с компьютером проще и эффективнее.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary btn-equal" id="heroDownloadLink" href="#downloads">Скачать приложение</a>
+                        <a class="btn btn-secondary btn-equal" href="#about">О приложении</a>
+                    </div>
+                    <div class="metric-row" id="metricsRow">
+                        <div class="metric-card"><strong>30+</strong><span>встроенных команд</span></div>
+                        <div class="metric-card"><strong>Desktop</strong><span>приложение</span></div>
+                        <div class="metric-card"><strong>Installer</strong><span>приложения</span></div>
+                        <div class="metric-card"><strong>Windows</strong><span>64-bit</span></div>
+                    </div>
+                </div>
+
+                <div class="hero-visual reveal delay-1">
+                    <div class="terminal-shell live-terminal">
+                        <div class="terminal-topbar windows-topbar">
+                            <div class="window-title-group">
+                                <img class="window-app-icon" src="static/img/brand-terminal.png" alt="GUI Terminal">
+                                <small>GUI Terminal</small>
+                            </div>
+                            <div class="window-controls" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        <div class="terminal-screen">
+                            <div class="terminal-line dim">Welcome to GUI Terminal.</div>
+                            <div class="terminal-line prompt"><span>&gt;&gt;&gt;</span> <span id="typedCommand"></span><span class="cursor"></span></div>
+                            <div class="terminal-output" id="typedOutput"></div>
+                        </div>
+                    </div>
+
+                    <div class="hero-image-card floating-card pulse-card info-hero-card">
+                        <div class="info-preview-window">
+                            <div class="info-preview-topbar">
+                                <div class="info-preview-title">
+                                    <img src="static/img/brand-terminal.png" alt="GUI Terminal">
+                                    <span>Информация</span>
+                                </div>
+                                <div class="info-preview-controls" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+
+                            <div class="info-preview-body">
+                                <div class="info-preview-scroll-viewport">
+                                    <div class="info-preview-scroll">
+                                        <div class="info-preview-header">ИНФОРМАЦИЯ О ПРОЕКТЕ</div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">РАЗРАБОТЧИКИ</div>
+
+                                            <div class="info-preview-card">
+                                                <div class="info-preview-dev-name">Лебедев Алексей</div>
+                                                <div class="info-preview-dev-role">    Frontend разработчик</div>
+                                            </div>
+
+                                            <div class="info-preview-card">
+                                                <div class="info-preview-dev-name">Алексеенко Максим</div>
+                                                <div class="info-preview-dev-role">    Backend разработчик</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">О ПРОЕКТЕ</div>
+
+                                            <div class="info-preview-card info-preview-grid-card">
+                                                <div class="info-preview-row"><span>Название:</span><b>GUI Terminal</b></div>
+                                                <div class="info-preview-row"><span>Тип:</span><b>Desktop Application</b></div>
+                                                <div class="info-preview-row"><span>Редакция:</span><b>Python Edition</b></div>
+                                                <div class="info-preview-row"><span>Версия:</span><b>[Version 1.8]</b></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">ТЕХНОЛОГИИ</div>
+
+                                            <div class="info-preview-card info-preview-grid-card">
+                                                <div class="info-preview-row"><span>Язык:</span><b>Python 3.x</b></div>
+                                                <div class="info-preview-row"><span>GUI фреймворк:</span><b>CustomTkinter</b></div>
+                                                <div class="info-preview-row"><span>Интерпретатор:</span><b>python.exe</b></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">СИСТЕМА</div>
+
+                                            <div class="info-preview-card info-preview-grid-card">
+                                                <div class="info-preview-row"><span>ОС:</span><b>Windows 11</b></div>
+                                                <div class="info-preview-row"><span>Платформа:</span><b>win32</b></div>
+                                                <div class="info-preview-row"><span>Архитектура:</span><b>AMD64</b></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">ПОДРОБНЕЕ</div>
+
+                                            <div class="info-preview-card">
+                                                <div class="info-preview-details">Документация к выпущенному продукту</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-footer">© 2026 UIDevStudio</div>
+                                    </div>
+                                </div>
+
+                                <div class="info-preview-scrollbar">
+                                    <div class="info-preview-thumb"></div>
+                                </div>
+
+                                <div class="info-preview-cursor" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" id="about">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">О ПРИЛОЖЕНИИ</div>
+                    <h2>GUI Terminal сочетает привычную командную строку и современный интерфейс настольного приложения</h2>
+                    <p>
+                        Приложение может выступать в роли «помощника», который объясняет, подсказывает, предупреждает об ошибках и качественно структурирует информацию.
+                        На сайте акцент сделан не только на внешнем виде, но и на практической пользе программы.
+                    </p>
+                </div>
+
+                <div class="about-grid">
+                    <article class="about-card reveal">
+                        <div class="about-card-copy">
+                            <div class="mini-label">ИНТЕРФЕЙС</div>
+                            <h3>Два режима работы</h3>
+                            <p>Separate mode помогает держать ввод и вывод аккуратно раздельно, а classic mode сохраняет привычное ощущение терминала.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal delay-1">
+                        <div class="about-card-copy">
+                            <div class="mini-label">ВСТРОЕННЫЕ ОКНА</div>
+                            <h3>Подсказки, настройки и информация</h3>
+                            <p>В приложении уже есть отдельные окна горячих клавиш, настроек запуска и информации о проекте.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal delay-2">
+                        <div class="about-card-copy">
+                            <div class="mini-label">УСТАНОВКА</div>
+                            <h3>Профессиональная подача с первого запуска</h3>
+                            <p>Даже установщик оформлен как часть продукта: тёмная тема, собственный welcome-экран и отдельные параметры установки.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="modes">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">РЕЖИМЫ</div>
+                    <h2>Выберите стиль работы, который удобнее именно вам</h2>
+                    <p>GUI Terminal показывает, что удобство и привычки пользователя можно совместить в одном приложении.</p>
+                </div>
+
+                <div class="modes-grid">
+                    <article class="mode-card reveal">
+                        <div class="mode-label">SEPARATE MODE</div>
+                        <h3>Для аккуратного и контролируемого ввода</h3>
+                        <p>Команда вводится в отдельной строке, а вывод остаётся чистым и читаемым. Такой режим отлично подходит для демонстраций, обучения и повседневной работы.</p>
+                    </article>
+                    <article class="mode-card reveal delay-1">
+                        <div class="mode-label">CLASSIC MODE</div>
+                        <h3>Для тех, кто любит ощущение классической консоли</h3>
+                        <p>Команда вводится прямо в терминальном окне. Подходит тем, кто хочет более привычный CLI-опыт, но в красивой графической оболочке.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" id="commands">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">КОМАНДЫ</div>
+                    <h2>Полный список встроенных команд, разбитый по типам</h2>
+                    <p>Командный набор собран прямо из исходного кода проекта и разделён на понятные категории: базовые действия, системные операции, работа с файлами, папками и Python-инструментами.</p>
+                </div>
+                <div class="commands-grid" id="commandsGrid"></div>
+            </div>
+        </section>
+
+        <section class="section" id="downloads">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">ВАРИАНТЫ ЗАГРУЗКИ</div>
+                    <h2>Скачайте приложение в удобном формате</h2>
+                    <p>На странице собраны варианты загрузки из README: портативные сборки, переход к релизам GitHub и блок для полноценного установщика.</p>
+                </div>
+
+                <div class="download-hero reveal">
+                    <div class="download-hero-copy">
+                        <div class="mini-label">БЫСТРЫЙ СТАРТ</div>
+                        <h3>Мгновенный запуск через прямую загрузку</h3>
+                        <p>Кнопка «Запуск» в шапке и кнопка на главном экране ведут сразу к скачиванию последней портативной версии приложения.</p>
+                    </div>
+                    <div class="download-hero-actions button-pair">
+                        <a class="btn btn-primary btn-equal" id="quickDownloadLink" href="#downloads">Скачать</a>
+                        <a class="btn btn-secondary btn-equal" id="allReleasesLink" href="#github">Все релизы</a>
+                    </div>
+                </div>
+
+                <div class="download-panels download-panels-stacked">
+                    <article class="download-panel reveal">
+                        <div class="panel-header">
+                            <div>
+                                <div class="mini-label">ПОРТАТИВНАЯ ВЕРСИЯ</div>
+                            </div>
+                            <a class="text-link" id="portableReleasesLink" href="#github">Страница релизов</a>
+                        </div>
+                        <div class="table-wrap no-scroll">
+                            <table class="release-table" id="portableTable">
+                                <thead>
+                                    <tr>
+                                        <th>Версия</th>
+                                        <th>Статус</th>
+                                        <th>Релиз</th>
+                                        <th>Файл</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <p class="panel-note" id="portableNote"></p>
+                    </article>
+
+                    <article class="download-panel reveal delay-1">
+                        <div class="panel-header">
+                            <div>
+                                <div class="mini-label">ПОЛНОЦЕННЫЙ УСТАНОВЩИК</div>
+                            </div>
+                            <a class="text-link" id="installerReleasesLink" href="#github">Страница релизов</a>
+                        </div>
+                        <div class="table-wrap no-scroll">
+                            <table class="release-table" id="installerTable">
+                                <thead>
+                                    <tr>
+                                        <th>Версия</th>
+                                        <th>Статус</th>
+                                        <th>Релиз</th>
+                                        <th>Файл</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <p class="panel-note" id="installerNote"></p>
+                    </article>
+                </div>
+
+                <div class="info-columns">
+                    <article class="info-panel reveal">
+                        <div class="mini-label">БЕЗОПАСНОСТЬ</div>
+                        <h3>Важное примечание</h3>
+                        <p id="securityNote"></p>
+                        <a class="text-link" id="virusTotalLink" href="https://www.virustotal.com" target="_blank" rel="noopener">Проверить на VirusTotal</a>
+                    </article>
+
+                    <article class="info-panel reveal delay-1">
+                        <div class="mini-label">ТРЕБОВАНИЯ</div>
+                        <h3>Системные требования</h3>
+                        <ul class="clean-list" id="requirementsList"></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" id="github">
+            <div class="container github-box reveal">
+                <div>
+                    <div class="eyebrow">GITHUB</div>
+                    <h2>Официальная страница проекта и архив всех версий</h2>
+                    <p>
+                        Здесь можно открыть репозиторий, посмотреть README, перейти к странице релизов и забрать актуальные или архивные сборки.
+                    </p>
+                </div>
+                <div class="cta-actions button-pair">
+                    <a class="btn btn-primary btn-equal" id="githubRepoLink" href="#" target="_blank" rel="noopener">Открыть GitHub</a>
+                    <a class="btn btn-secondary btn-equal" id="githubReleasesLink" href="#" target="_blank" rel="noopener">Страница релизов</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                <strong>GUI Terminal</strong>
+                <p>Создано для удобной работы с командной строкой.</p>
+            </div>
+            <a href="#top">Наверх ↑</a>
+        </div>
+    </footer>
+
+    <script src="static/js/main.js"></script>
+</body>
+</html>

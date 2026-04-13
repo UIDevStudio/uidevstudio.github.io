@@ -1,0 +1,255 @@
+{
+  "app_name": "GUI Terminal",
+  "version": "2.0",
+  "tagline": "Терминал с графическим интерфейсом",
+  "github_url": "https://github.com/UIDevStudio/GUI_Terminal",
+  "releases_url": "https://github.com/UIDevStudio/GUI_Terminal/releases",
+  "downloads": {
+    "quick_launch_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.7/GUI_Terminal.exe",
+    "virustotal_url": "https://www.virustotal.com",
+    "portable_versions": [
+      {
+        "version": "v1.7",
+        "status": "Последнее обновление",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.7",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.7/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.6",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.6",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.6/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.5",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.5",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.5/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.4",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.4",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.4/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.3",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.3",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.3/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.2",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.2",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.2/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.1",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.1",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.1/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      },
+      {
+        "version": "v1.0",
+        "status": "Устаревшая версия",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/tag/terminal_v1.0",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases/download/terminal_v1.0/GUI_Terminal.exe",
+        "download_label": "Скачать",
+        "download_name": "GUI Terminal.exe"
+      }
+    ],
+    "portable_note": "Примечание. После обновления 2.0 текущие версии станут архивными.",
+    "installer_versions": [
+      {
+        "version": "v2.0",
+        "status": "Ожидание обновления",
+        "release_url": "https://github.com/UIDevStudio/GUI_Terminal/releases",
+        "download_url": "https://github.com/UIDevStudio/GUI_Terminal/releases",
+        "download_label": "Открыть релизы"
+      }
+    ],
+    "installer_note": "Полноценный установщик приложения появится в скором времени. Следите за обновлениями.",
+    "security_note": "Антивирус может реагировать на .exe-файл. Это обычная ситуация для многих сборок под Windows, так как защитники нередко помечают неподписанные исполняемые файлы.",
+    "requirements": [
+      "Операционная система: Windows 64-bit",
+      "Оперативная память: от 512 МБ",
+      "Место на диске: ~50 МБ"
+    ]
+  },
+  "command_categories": [
+    {
+      "title": "Базовые команды",
+      "commands": [
+        {
+          "name": "date",
+          "description": "Показывает текущую дату."
+        },
+        {
+          "name": "time",
+          "description": "Показывает текущее время."
+        },
+        {
+          "name": "help",
+          "description": "Открывает встроенную справку по доступным командам."
+        },
+        {
+          "name": "stop",
+          "description": "Завершает работу приложения."
+        },
+        {
+          "name": "cls",
+          "description": "Очищает консольный вывод."
+        }
+      ]
+    },
+    {
+      "title": "Навигация и окружение",
+      "commands": [
+        {
+          "name": "diskspace",
+          "description": "Показывает дисковое пространство."
+        },
+        {
+          "name": "echo",
+          "description": "Выводит переменные окружения и их значения."
+        },
+        {
+          "name": "pwd",
+          "description": "Показывает текущую директорию."
+        },
+        {
+          "name": "ls",
+          "description": "Выводит содержимое директории."
+        },
+        {
+          "name": "cd",
+          "description": "Меняет текущую директорию."
+        }
+      ]
+    },
+    {
+      "title": "Универсальные действия",
+      "commands": [
+        {
+          "name": "info",
+          "description": "Показывает информацию о файле или папке."
+        },
+        {
+          "name": "move",
+          "description": "Перемещает файлы или папки."
+        },
+        {
+          "name": "copy",
+          "description": "Копирует файлы или папки."
+        },
+        {
+          "name": "rename",
+          "description": "Переименовывает объект."
+        }
+      ]
+    },
+    {
+      "title": "Работа с файлами",
+      "commands": [
+        {
+          "name": "open",
+          "description": "Запускает интерактивный режим открытия файла или объекта."
+        },
+        {
+          "name": "read",
+          "description": "Читает содержимое текстового файла."
+        },
+        {
+          "name": "write",
+          "description": "Записывает данные в файл."
+        },
+        {
+          "name": "clear",
+          "description": "Очищает содержимое файла."
+        },
+        {
+          "name": "count",
+          "description": "Считает символы и строки в файле."
+        },
+        {
+          "name": "create",
+          "description": "Создаёт новый файл."
+        },
+        {
+          "name": "delete",
+          "description": "Удаляет файл."
+        },
+        {
+          "name": "remove",
+          "description": "Удаляет фрагмент из файла."
+        }
+      ]
+    },
+    {
+      "title": "Работа с папками",
+      "commands": [
+        {
+          "name": "mkdir",
+          "description": "Создаёт папку."
+        },
+        {
+          "name": "rmdir",
+          "description": "Удаляет папку."
+        },
+        {
+          "name": "clean",
+          "description": "Очищает содержимое папки."
+        }
+      ]
+    },
+    {
+      "title": "Системные инструменты",
+      "commands": [
+        {
+          "name": "tasklist",
+          "description": "Показывает запущенные процессы Windows."
+        },
+        {
+          "name": "taskkill",
+          "description": "Завершает процесс."
+        },
+        {
+          "name": "shutdown",
+          "description": "Выполняет завершение работы системы."
+        },
+        {
+          "name": "systeminfo",
+          "description": "Показывает сведения о системе."
+        }
+      ]
+    },
+    {
+      "title": "Python и пакеты",
+      "commands": [
+        {
+          "name": "python",
+          "description": "Запускает интерпретатор Python из GUI Terminal."
+        },
+        {
+          "name": "pip",
+          "description": "Позволяет работать с менеджером пакетов Python."
+        }
+      ]
+    }
+  ]
+}
