@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ViperTerm — терминал с графическим интерфейсом для Windows. Скачать портативную версию, посмотреть режимы работы и список встроенных команд.">
+    <title>ViperTerm — официальный сайт</title>
+    <link rel="icon" href="static/img/favicon.ico">
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" data-home-top>
+                <span class="brand-mark image-mark"><img src="static/img/brand-terminal.png" alt="Логотип ViperTerm"></span>
+                <span class="brand-text">ViperTerm</span>
+            </a>
+
+            <nav class="nav" id="navMenu">
+                <div class="nav-item nav-item-has-mega" id="aboutNavItem">
+                    <a href="#about" class="nav-main-link">О приложении</a>
+                    <div class="nav-mega" id="aboutMegaMenu">
+                        <a href="#interface" class="nav-mega-link"><span class="nav-mega-title">Интерфейс</span></a>
+                        <a href="#modes" class="nav-mega-link"><span class="nav-mega-title">Режимы</span></a>
+                        <a href="#editor" class="nav-mega-link"><span class="nav-mega-title">Редактор</span></a>
+                        <a href="#audience" class="nav-mega-link"><span class="nav-mega-title">Для кого приложение</span></a>
+                    </div>
+                </div>
+                <a href="#commands">Команды</a>
+                <a href="#downloads">Загрузка</a>
+                <a href="#github">GitHub</a>
+                <a class="nav-cta" id="navLaunchLink" href="#downloads">Запуск</a>
+            </nav>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero section">
+            <div class="container hero-grid">
+                <div class="hero-copy reveal">
+                    <div class="eyebrow">DESKTOP APPLICATION</div>
+                    <h1>Терминал с графическим интерфейсом</h1>
+                    <p class="lead">
+                        ViperTerm — это современная графическая оболочка над командной строкой, которая кардинально меняет привычный подход к работе с командами операционной системы.
+                        Терминал обладает богатым визуальным интерфейсом, что делает взаимодействие с компьютером проще и эффективнее.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary btn-equal" id="heroDownloadLink" href="downloads.html">Скачать приложение</a>
+                        <a class="btn btn-secondary btn-equal" href="#about">О приложении</a>
+                    </div>
+                    <div class="metric-row" id="metricsRow">
+                        <div class="metric-card"><strong>30+</strong><span>встроенных команд</span></div>
+                        <div class="metric-card"><strong>Desktop</strong><span>приложение для Windows</span></div>
+                        <div class="metric-card"><strong>Edition</strong><span>Installer и Portable</span></div>
+                        <div class="metric-card"><strong>Windows</strong><span>поддержка 64-bit</span></div>
+                    </div>
+                </div>
+
+                <div class="hero-visual reveal delay-1">
+                    <div class="terminal-shell live-terminal">
+                        <div class="terminal-topbar windows-topbar">
+                            <div class="window-title-group">
+                                <img class="window-app-icon" src="static/img/brand-terminal.png" alt="ViperTerm">
+                                <small>ViperTerm</small>
+                            </div>
+                            <div class="window-controls" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        <div class="terminal-screen">
+                            <div class="terminal-line dim">Welcome to ViperTerm.</div>
+                            <div class="terminal-line prompt"><span>&gt;&gt;&gt;</span> <span id="typedCommand"></span><span class="cursor"></span></div>
+                            <div class="terminal-output" id="typedOutput"></div>
+                        </div>
+                    </div>
+
+                    <div class="hero-image-card floating-card pulse-card info-hero-card">
+                        <div class="info-preview-window">
+                            <div class="info-preview-topbar">
+                                <div class="info-preview-title">
+                                    <img src="static/img/brand-terminal.png" alt="ViperTerm">
+                                    <span>Информация</span>
+                                </div>
+                                <div class="info-preview-controls" aria-hidden="true">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+
+                            <div class="info-preview-body">
+                                <div class="info-preview-scroll-viewport">
+                                    <div class="info-preview-scroll">
+                                        <div class="info-preview-header">ИНФОРМАЦИЯ О ПРОЕКТЕ</div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">РАЗРАБОТЧИКИ</div>
+
+                                            <div class="info-preview-card">
+                                                <div class="info-preview-dev-name">Лебедев Алексей</div>
+                                                <div class="info-preview-dev-role">    Frontend разработчик</div>
+                                            </div>
+
+                                            <div class="info-preview-card">
+                                                <div class="info-preview-dev-name">Алексеенко Максим</div>
+                                                <div class="info-preview-dev-role">    Backend разработчик</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">О ПРОЕКТЕ</div>
+
+                                            <div class="info-preview-card info-preview-grid-card">
+                                                <div class="info-preview-row"><span>Название:</span><b>ViperTerm</b></div>
+                                                <div class="info-preview-row"><span>Тип:</span><b>Desktop Application</b></div>
+                                                <div class="info-preview-row"><span>Редакция:</span><b>Python Edition</b></div>
+                                                <div class="info-preview-row"><span>Версия:</span><b>[Version 2.0]</b></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">ТЕХНОЛОГИИ</div>
+
+                                            <div class="info-preview-card info-preview-grid-card">
+                                                <div class="info-preview-row"><span>Язык:</span><b>Python 3.x</b></div>
+                                                <div class="info-preview-row"><span>GUI фреймворк:</span><b>CustomTkinter</b></div>
+                                                <div class="info-preview-row"><span>Интерпретатор:</span><b>python.exe</b></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">СИСТЕМА</div>
+
+                                            <div class="info-preview-card info-preview-grid-card">
+                                                <div class="info-preview-row"><span>ОС:</span><b>Windows 11</b></div>
+                                                <div class="info-preview-row"><span>Платформа:</span><b>win32</b></div>
+                                                <div class="info-preview-row"><span>Архитектура:</span><b>AMD64</b></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-section">
+                                            <div class="info-preview-section-title">ПОДРОБНЕЕ</div>
+
+                                            <div class="info-preview-card">
+                                                <div class="info-preview-details">Документация к выпущенному продукту</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="info-preview-footer">© 2026 UIDevStudio</div>
+                                    </div>
+                                </div>
+
+                                <div class="info-preview-scrollbar">
+                                    <div class="info-preview-thumb"></div>
+                                </div>
+
+                                <div class="info-preview-cursor" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="section section-dark" id="about">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">О ПРИЛОЖЕНИИ</div>
+                    <h2>Командная строка, которой удобно пользоваться каждый день</h2>
+                    <p>
+                        ViperTerm объединяет гибкость командного интерфейса и понятную визуальную среду.
+                        Здесь важна не только эстетика, но и реальная польза: быстрый старт, читаемый вывод, встроенные инструменты и комфортная работа с командами.
+                    </p>
+                </div>
+
+                <div class="about-grid about-grid-six">
+                    <article class="about-card reveal">
+                        <div class="about-card-copy">
+                            <div class="about-card-heading">
+                                <span class="about-card-number">01</span>
+                                <h3>Быстрый старт</h3>
+                            </div>
+                            <p>ViperTerm снижает порог входа в работу с командами и делает первые шаги в терминале менее стрессовыми.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal delay-1">
+                        <div class="about-card-copy">
+                            <div class="about-card-heading">
+                                <span class="about-card-number">02</span>
+                                <h3>Два формата</h3>
+                            </div>
+                            <p>Separate Mode помогает сохранять порядок, а Classic Mode оставляет привычное ощущение классической консоли.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal delay-2">
+                        <div class="about-card-copy">
+                            <div class="about-card-heading">
+                                <span class="about-card-number">03</span>
+                                <h3>Чистый вывод</h3>
+                            </div>
+                            <p>Структурированный вывод помогает быстрее читать ответы, замечать ошибки и понимать, что произошло после выполнения команды.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal">
+                        <div class="about-card-copy">
+                            <div class="about-card-heading">
+                                <span class="about-card-number">04</span>
+                                <h3>Быстрые действия</h3>
+                            </div>
+                            <p>Ключевые действия всегда под рукой: история команд, окно горячих клавиш, настройки запуска и блок с информацией о проекте.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal delay-1">
+                        <div class="about-card-copy">
+                            <div class="about-card-heading">
+                                <span class="about-card-number">05</span>
+                                <h3>Реальные задачи</h3>
+                            </div>
+                            <p>Работайте с файлами, папками, системными командами Windows, а также запускайте Python и используйте pip в одном приложении.</p>
+                        </div>
+                    </article>
+
+                    <article class="about-card reveal delay-2">
+                        <div class="about-card-copy">
+                            <div class="about-card-heading">
+                                <span class="about-card-number">06</span>
+                                <h3>Визуальный контроль</h3>
+                            </div>
+                            <p>Цветовые акценты, статусы и понятная структура делают взаимодействие с терминалом заметно спокойнее и нагляднее.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="interface">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">ИНТЕРФЕЙС</div>
+                    <h2>Интерфейс, который помогает работать, а не отвлекает</h2>
+                    <p>Ключевые элементы ViperTerm собраны так, чтобы пользователь быстрее ориентировался в действии, результате и вспомогательных инструментах.</p>
+                </div>
+
+                <div class="reveal reveal-frame">
+                    <div class="interface-showcase">
+                    <div class="interface-stage">
+                        <div class="interface-window-shell interface-demo-shell" id="interfaceDemoShell" data-interface-state="mode">
+                            <div class="interface-window-topbar branded-topbar">
+                                <div class="demo-title-group">
+                                    <span class="demo-brand-dot"></span>
+                                    <span class="demo-title-text">ViperTerm</span>
+                                </div>
+                                <div class="demo-window-controls"><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="interface-demo-screen">
+                                <div class="interface-demo-output-shell"></div>
+                                <div class="interface-demo-line line-a"></div>
+                                <div class="interface-demo-line line-b"></div>
+                                <div class="interface-demo-line line-c"></div>
+                                <div class="interface-demo-panel"></div>
+                                <div class="interface-demo-separate-input"></div>
+                                <div class="interface-demo-window window-a"></div>
+                                <div class="interface-demo-window window-b"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="interface-copy">
+                        <div class="interface-tabs" role="tablist" aria-label="Элементы интерфейса">
+                            <button class="interface-tab is-active" data-interface-tab="mode" type="button">Структура</button>
+                            <button class="interface-tab" data-interface-tab="panel" type="button">Быстрый доступ</button>
+                            <button class="interface-tab" data-interface-tab="windows" type="button">Окна и подсказки</button>
+                        </div>
+
+                        <article class="interface-detail is-active" data-interface-panel="mode">
+                            <div class="mode-label">СТРУКТУРА ИНТЕРФЕЙСА</div>
+                            <h3>Separate Mode делает работу чище</h3>
+                            <p>Сначала видно только базовое окно, а затем добавляется отдельная строка ввода и логика разделения областей. Так интерфейс сразу объясняет, как устроена работа в приложении.</p>
+                        </article>
+
+                        <article class="interface-detail" data-interface-panel="panel">
+                            <div class="mode-label">БЫСТРЫЙ ДОСТУП</div>
+                            <h3>Панель управления появляется там, где она нужна</h3>
+                            <p>Боковая зона добавляется как отдельный виджет и сразу становится акцентом. Пользователь быстро считывает, где искать настройки и вспомогательные действия.</p>
+                        </article>
+
+                        <article class="interface-detail" data-interface-panel="windows">
+                            <div class="mode-label">ПОДСКАЗКИ</div>
+                            <h3>Встроенные окна добавляются без перегруза экрана</h3>
+                            <p>Окна и подсказки появляются как дополнительные слои поверх основного терминала. Это сохраняет чистоту композиции и делает интерфейс понятнее с первого взгляда.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" id="modes">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">РЕЖИМЫ</div>
+                    <h2>Один терминал — три сильных сценария взаимодействия</h2>
+                    <p>ViperTerm не заставляет подстраиваться под один стиль работы: он даёт удобный формат под задачу и привычки пользователя.</p>
+                </div>
+
+                <div class="modes-layout">
+                    <div class="about-grid about-grid-vertical modes-cards-column">
+                        <article class="about-card reveal">
+                            <div class="about-card-copy">
+                                <div class="mode-label">SEPARATE MODE</div>
+                                <h3>Отдельное поле ввода</h3>
+                                <p>Команда вводится в собственной строке, а вывод сохраняет чистую, спокойную структуру. Это удобно для обучения, демонстраций и аккуратной работы.</p>
+                            </div>
+                        </article>
+                        <article class="about-card reveal delay-1">
+                            <div class="about-card-copy">
+                                <div class="mode-label">CLASSIC MODE</div>
+                                <h3>Привычный поток команд</h3>
+                                <p>Строка ввода возвращается в основную область терминала. Получается знакомое ощущение классической консоли, но в более аккуратной оболочке.</p>
+                            </div>
+                        </article>
+                        <article class="about-card reveal delay-2">
+                            <div class="about-card-copy">
+                                <div class="mode-label">ПЕРЕКЛЮЧЕНИЕ</div>
+                                <h3>Плавная смена сценария</h3>
+                                <p>ViperTerm даёт возможность быстро переключаться между стилями работы, не меняя логику самого окна и не ломая привычный ритм.</p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="reveal reveal-frame">
+                        <div class="modes-preview">
+                        <div class="modes-preview-head">
+                            <button class="mode-switch is-active" type="button" data-mode-preview="separate">Separate Mode</button>
+                            <button class="mode-switch" type="button" data-mode-preview="classic">Classic Mode</button>
+                            <button class="mode-switch" type="button" data-mode-preview="adaptive">Переключение</button>
+                        </div>
+                        <div class="modes-preview-stage mode-demo-stage" id="modeDemoStage" data-mode-state="separate">
+                            <div class="interface-window-topbar branded-topbar">
+                                <div class="demo-title-group">
+                                    <span class="demo-brand-dot"></span>
+                                    <span class="demo-title-text">ViperTerm</span>
+                                </div>
+                                <div class="demo-window-controls"><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="mode-demo-screen">
+                                <div class="mode-demo-output-shell"></div>
+                                <div class="mode-demo-line line-a"></div>
+                                <div class="mode-demo-line line-b"></div>
+                                <div class="mode-demo-line line-c"></div>
+                                <div class="mode-demo-side-panel"></div>
+                                <div class="mode-demo-separate-input"></div>
+                                <div class="mode-demo-classic-bar"></div>
+                                <div class="mode-demo-switch-pill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section" id="editor">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">РЕДАКТОР</div>
+                    <h2>Встроенный редактор Python-файлов прямо в ViperTerm</h2>
+                    <p>Окно редактора открывает, меняет и закрывает файл так же аккуратно, как в приложении: с нумерацией строк, подсветкой кода и понятными действиями.</p>
+                </div>
+
+                <div class="interface-showcase editor-showcase">
+                    <div class="reveal reveal-frame">
+                        <div class="interface-stage editor-stage">
+                            <div class="interface-window-shell editor-demo-shell" id="editorDemoShell" data-editor-state="open">
+                                <div class="interface-window-topbar branded-topbar editor-topbar">
+                                    <div class="demo-title-group editor-title-group">
+                                        <span class="demo-brand-dot editor-brand-dot"></span>
+                                        <span class="demo-title-text">Текстовый редактор</span>
+                                        <span class="editor-title-file">main.py</span>
+                                    </div>
+                                    <div class="demo-window-controls"><span></span><span></span><span></span></div>
+                                </div>
+
+                                <div class="editor-code-area">
+                                    <div class="editor-open-badge">[i] Opening file...</div>
+                                    <div class="editor-sweep" aria-hidden="true"></div>
+
+                                    <div class="editor-code-row editor-line-1"><span class="line-no">1</span><code><span class="kw">def</span> <span class="fn">main</span>():</code></div>
+                                    <div class="editor-code-row editor-line-2"><span class="line-no">2</span><code>    prices = [<span class="num">124</span>, <span class="num">121</span>, <span class="num">128</span>, <span class="num">131</span>, <span class="num">129</span>, <span class="num">140</span>]</code></div>
+                                    <div class="editor-code-row editor-line-3"><span class="line-no">3</span><code>    best_profit = <span class="num">0</span></code></div>
+                                    <div class="editor-code-row editor-line-4"><span class="line-no">4</span><code><span class="base-line">    min_price = prices[<span class="num">0</span>]</span><span class="edit-live edit-live-a">    min_price = <span class="edit-erase">prices[<span class="num">0</span>]</span><span class="edit-type">min(prices)</span><span class="caret"></span></span></code></div>
+                                    <div class="editor-code-row editor-line-5"><span class="line-no">5</span><code></code></div>
+                                    <div class="editor-code-row editor-line-6"><span class="line-no">6</span><code>    <span class="kw">for</span> price <span class="kw">in</span> prices[<span class="num">1</span>:]:</code></div>
+                                    <div class="editor-code-row editor-line-7"><span class="line-no">7</span><code><span class="base-line">        best_profit = <span class="fn">max</span>(best_profit, price - min_price)</span><span class="edit-live edit-live-b">        best_profit = <span class="fn">max</span>(best_profit, <span class="edit-erase">price - min_price</span><span class="edit-type">profit</span><span class="caret"></span>)</span></code></div>
+                                    <div class="editor-code-row editor-line-8"><span class="line-no">8</span><code>        min_price = <span class="fn">min</span>(min_price, price)</code></div>
+                                    <div class="editor-code-row editor-line-9"><span class="line-no">9</span><code>    <span class="kw">return</span> best_profit</code></div>
+
+                                    <div class="editor-edit-layer" aria-hidden="true">
+                                        <div class="editor-edit-row edit-row-a"><span class="line-no">4</span><code>    min_price = <span class="edit-erase">prices[0]</span><span class="edit-type">min(prices)</span><span class="caret"></span></code></div>
+                                        <div class="editor-edit-row edit-row-b"><span class="line-no">7</span><code>        best_profit = <span class="fn">max</span>(best_profit, <span class="edit-erase">price - min_price</span><span class="edit-type">profit</span><span class="caret"></span>)</code></div>
+                                    </div>
+                                </div>
+
+                                <div class="editor-actions-bar">
+                                    <button class="editor-action-btn editor-save" type="button">Save</button>
+                                    <button class="editor-action-btn" type="button">Reload</button>
+                                    <button class="editor-action-btn editor-close" type="button">Close</button>
+                                </div>
+
+                                <div class="editor-cursor" aria-hidden="true"></div>
+                                <div class="editor-dialog" aria-hidden="true">
+                                    <h4>Несохранённые изменения</h4>
+                                    <p>Сохранить изменения в main.py перед закрытием?</p>
+                                    <div class="editor-dialog-actions">
+                                        <button type="button" class="editor-dialog-btn yes">Yes</button>
+                                        <button type="button" class="editor-dialog-btn">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="interface-copy editor-copy reveal delay-1">
+                        <div class="interface-tabs editor-tabs" role="tablist" aria-label="Сценарии редактора">
+                            <button class="interface-tab is-active" data-editor-tab="open" type="button">Открытие</button>
+                            <button class="interface-tab" data-editor-tab="edit" type="button">Редактирование</button>
+                            <button class="interface-tab" data-editor-tab="actions" type="button">Действия</button>
+                        </div>
+
+                        <article class="interface-detail is-active" data-editor-panel="open">
+                            <div class="mode-label">OPEN COMMAND</div>
+                            <h3>Файл main.py открывается как отдельное окно</h3>
+                            <p>Сначала появляется имя файла, затем световая полоса проходит по области редактора слева направо, и код спокойно проявляется строка за строкой.</p>
+                        </article>
+
+                        <article class="interface-detail" data-editor-panel="edit">
+                            <div class="mode-label">LIVE EDIT</div>
+                            <h3>Редактирование показывает реальные строки кода</h3>
+                            <p>Редактор аккуратно выделяет строку, удаляет часть выражения, печатает новое значение и переходит к следующей строке без резких рывков.</p>
+                        </article>
+
+                        <article class="interface-detail" data-editor-panel="actions">
+                            <div class="mode-label">SAFE CLOSE</div>
+                            <h3>Close вызывает предупреждение о несохранённых изменениях</h3>
+                            <p>Курсор нажимает Close, появляется диалог подтверждения, затем выбирается Yes — так сценарий повторяет поведение настоящего окна редактора.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section" id="audience">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">ДЛЯ КОГО ПРИЛОЖЕНИЕ</div>
+                    <h2>Три типа пользователей, которым особенно подойдёт этот инструмент</h2>
+                    <p>ViperTerm не пытается быть нишевым решением только для одной аудитории. Он одинаково полезен для старта, практики и повседневной работы.</p>
+                </div>
+
+                <div class="audience-grid">
+                    <article class="audience-item reveal">
+                        <div class="audience-header">
+                            <span class="audience-badge">01</span>
+                            <h3>Новички</h3>
+                        </div>
+                        <p>Тем, кто хочет начать знакомство с командами без ощущения «чёрного экрана» и лишнего напряжения.</p>
+                    </article>
+                    <article class="audience-item reveal">
+                        <div class="audience-header">
+                            <span class="audience-badge">02</span>
+                            <h3>Практики</h3>
+                        </div>
+                        <p>Тем, кто уже использует CLI, но хочет более понятный интерфейс, читаемый вывод и быстрый доступ к нужным действиям.</p>
+                    </article>
+                    <article class="audience-item reveal">
+                        <div class="audience-header">
+                            <span class="audience-badge">03</span>
+                            <h3>Разработчики</h3>
+                        </div>
+                        <p>Тем, кому нужен лёгкий инструмент для ежедневных задач без перегрузки сложными оболочками и лишними шагами.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" id="commands">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">КОМАНДЫ</div>
+                    <h2>Полный список встроенных команд, разбитый по типам</h2>
+                    <p>Командный набор собран прямо из исходного кода проекта и разделён на понятные категории: базовые действия, системные операции, работа с файлами, папками и Python-инструментами.</p>
+                </div>
+                <div class="commands-grid" id="commandsGrid"></div>
+            </div>
+        </section>
+
+        <section class="section" id="downloads">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <div class="eyebrow">ВАРИАНТЫ ЗАГРУЗКИ</div>
+                    <h2>Актуальные релизы и архив предыдущих версий</h2>
+                    <p>В актуальном блоке показывается только последняя версия ViperTerm. Все предыдущие релизы, включая версии с двумя редакциями, перенесены в архив ниже.</p>
+                </div>
+
+                <div class="downloads-showcase">
+                    <div class="download-hero reveal">
+                        <div class="download-hero-copy">
+                            <div class="mini-label">БЫСТРЫЙ СТАРТ</div>
+                            <h3 id="currentReleaseTitle">Мгновенный запуск через прямую загрузку</h3>
+                            <p id="currentReleaseDescription">Выберите удобный способ запуска: установщик для стандартной установки или portable-версию для быстрого старта без установки.</p>
+                        </div>
+                        <div class="download-hero-actions button-pair">
+                            <a class="btn btn-primary btn-equal" id="quickDownloadLink" href="#downloads">Скачать</a>
+                            <a class="btn btn-secondary btn-equal" id="allReleasesLink" href="#github">Все релизы</a>
+                        </div>
+                    </div>
+
+                    <article class="download-panel download-panel-current reveal delay-1">
+                        <div class="current-release-card" id="currentReleaseCard"></div>
+                        <p class="panel-note" id="currentReleaseNote"></p>
+                    </article>
+                </div>
+
+                <article class="download-panel download-panel-archive reveal">
+                    <div class="panel-header">
+                        <div>
+                            <div class="mini-label">АРХИВ PORTABLE EDITION</div>
+                            <h3>Предыдущие версии ViperTerm</h3>
+                        </div>
+                        <a class="text-link" id="archiveReleasesLink" href="#github">Страница релизов</a>
+                    </div>
+                    <div class="table-wrap no-scroll">
+                        <table class="release-table" id="archiveTable">
+                            <thead>
+                                <tr>
+                                    <th>Версия</th>
+                                    <th>Статус</th>
+                                    <th>Релиз</th>
+                                    <th>Скачать</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <p class="panel-note" id="archiveNote"></p>
+                </article>
+
+                <div class="info-columns downloads-info">
+                    <article class="info-panel reveal">
+                        <div class="mini-label">БЕЗОПАСНОСТЬ</div>
+                        <h3>Важное примечание</h3>
+                        <p id="securityNote"></p>
+                        <a class="text-link" id="virusTotalLink" href="https://www.virustotal.com" target="_blank" rel="noopener">Проверить на VirusTotal</a>
+                    </article>
+
+                    <article class="info-panel reveal delay-1">
+                        <div class="mini-label">ТРЕБОВАНИЯ</div>
+                        <h3>Системные требования</h3>
+                        <ul class="clean-list" id="requirementsList"></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark github-section" id="github">
+            <div class="container github-section-inner">
+                <article class="github-main-card reveal">
+                    <div class="github-main-copy">
+                        <div class="mini-label">GITHUB РЕПОЗИТОРИЙ</div>
+                        <h3>UIDevStudio / ViperTerm</h3>
+                        <p>
+                            Центральная страница проекта на GitHub: здесь собраны исходный код, README с описанием приложения, история изменений и страница релизов со всеми опубликованными версиями ViperTerm.
+                        </p>
+                    </div>
+                    <div class="github-main-actions">
+                        <a class="btn btn-primary btn-equal" id="githubRepoLink" href="https://github.com/UIDevStudio/ViperTerm" target="_blank" rel="noopener">Открыть GitHub</a>
+                        <a class="btn btn-secondary btn-equal" id="githubReleasesLink" href="https://github.com/UIDevStudio/ViperTerm/releases" target="_blank" rel="noopener">Страница релизов</a>
+                    </div>
+                </article>
+
+                <div class="github-cards-grid reveal delay-1">
+                    <article class="github-info-card">
+                        <div class="github-info-card-head"><span class="github-card-number">01</span><h3>README</h3></div>
+                        <p>Краткое описание ViperTerm: назначение приложения, формат поставки, базовые сведения для запуска и требования к системе.</p>
+                    </article>
+                    <article class="github-info-card">
+                        <div class="github-info-card-head"><span class="github-card-number">02</span><h3>Релизы</h3></div>
+                        <p>Отдельная страница с актуальной версией, portable-сборкой, установщиком и архивом предыдущих выпусков проекта.</p>
+                    </article>
+                    <article class="github-info-card">
+                        <div class="github-info-card-head"><span class="github-card-number">03</span><h3>История</h3></div>
+                        <p>Коммиты показывают развитие проекта: какие изменения добавлялись, как обновлялся код и как двигались версии.</p>
+                    </article>
+                    <article class="github-info-card">
+                        <div class="github-info-card-head"><span class="github-card-number">04</span><h3>Код</h3></div>
+                        <p>Исходные файлы позволяют посмотреть структуру проекта, основные компоненты приложения и логику работы ViperTerm.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                <strong>ViperTerm</strong>
+                <p>Создано для удобной работы с командной строкой.</p>
+            </div>
+            <a href="index.html" data-home-top>Наверх ↑</a>
+        </div>
+    </footer>
+
+    <script src="static/js/main.js"></script>
+</body>
+</html>
