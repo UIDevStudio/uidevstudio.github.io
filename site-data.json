@@ -1,32 +1,32 @@
 {
   "app_name": "ViperTerm",
-  "version": "2.0",
+  "version": "2.1",
   "tagline": "Терминал с графическим интерфейсом",
   "github_url": "https://github.com/UIDevStudio/ViperTerm",
   "releases_url": "https://github.com/UIDevStudio/ViperTerm/releases",
   "downloads": {
-    "quick_launch_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.0/ViperTerm_Installer.exe",
+    "quick_launch_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.1/ViperTerm_Installer.exe",
     "virustotal_url": "https://www.virustotal.com",
     "current_release_hero_title": "Мгновенный запуск через прямую загрузку",
-    "current_release_hero_description": "Кнопка «Запуск» и кнопка «Скачать» в этом блоке ведут сразу к скачиванию актуальной версии приложения с полноценным установщиком.",
+    "current_release_hero_description": "Кнопка «Запуск» и кнопка «Скачать» в этом блоке ведут сразу к скачиванию версии 2.1 с полноценным установщиком.",
     "current_release": {
-      "version": "Версия 2.0",
+      "version": "Версия 2.1",
       "status": "Актуальная версия",
-      "description": "ViperTerm 2.0 — актуальный релиз приложения. Версия поставляется в двух редакциях: Installer Edition для стандартной установки в Windows и Portable Edition для запуска без установки.",
-      "release_url": "https://github.com/UIDevStudio/ViperTerm/releases/tag/terminal_v2.0",
+      "description": "ViperTerm 2.1 — актуальный релиз с обновлением интерфейса: кастомная рамка окна, собственные кнопки управления, сворачиваемые вкладки редакторов и улучшенная верхняя панель приложения. Доступны Installer Edition для установки и Portable Edition для запуска без установки.",
+      "release_url": "https://github.com/UIDevStudio/ViperTerm/releases/tag/terminal_v2.1",
       "options": [
         {
           "title": "Installer Edition",
-          "description": "Рекомендуемый вариант для большинства пользователей. Устанавливает приложение в систему, создаёт привычный сценарий запуска и лучше подходит для повседневной работы на одном компьютере.",
-          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.0/ViperTerm_Installer.exe",
+          "description": "Рекомендуемый вариант для большинства пользователей. Устанавливает версию 2.1 в систему, создаёт привычный сценарий запуска и лучше подходит для повседневной работы на одном компьютере.",
+          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.1/ViperTerm_Installer.exe",
           "download_label": "Скачать",
           "recommended": true,
           "download_name": "ViperTerm_Installer.exe"
         },
         {
           "title": "Portable Edition",
-          "description": "Подходит для запуска без установки. Можно хранить приложение в любой папке, переносить между устройствами и использовать как самостоятельный исполняемый файл.",
-          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.0/ViperTerm.exe",
+          "description": "Подходит для запуска версии 2.1 без установки. Приложение можно хранить в любой папке, переносить между устройствами и использовать как самостоятельный исполняемый файл.",
+          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.1/ViperTerm.exe",
           "download_label": "Скачать",
           "download_name": "ViperTerm.exe"
         }

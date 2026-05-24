@@ -1,3 +1,11 @@
+(() => {
+  const path = window.location.pathname;
+  if (window.history?.replaceState && window.location.protocol !== 'file:' && /\/index\.html$/i.test(path)) {
+    const cleanPath = path.replace(/index\.html$/i, '');
+    window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+  }
+})();
+
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
 
@@ -642,7 +650,7 @@ if (editorShell) {
         event.preventDefault();
 
         if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, '', targetUrl.pathname + targetUrl.search);
+          window.history.replaceState(null, '', targetPath + targetUrl.search);
         }
 
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -663,4 +671,89 @@ if (editorShell) {
   updateFromScroll();
   window.addEventListener('scroll', updateFromScroll, { passive: true });
   window.addEventListener('resize', updateFromScroll);
+})();
+
+(() => {
+  const setupCustomScrollbar = () => {
+    const root = document.documentElement;
+    const body = document.body;
+    if (!root || !body || document.querySelector('.custom-page-scrollbar')) return;
+
+    const bar = document.createElement('div');
+    bar.className = 'custom-page-scrollbar is-hidden';
+
+    const thumb = document.createElement('div');
+    thumb.className = 'custom-page-scrollbar__thumb';
+    bar.appendChild(thumb);
+    body.appendChild(bar);
+
+    let isDragging = false;
+    let dragStartY = 0;
+    let scrollStartY = 0;
+
+    const TRACK_INSET = 12;
+    const getScrollMax = () => Math.max(0, root.scrollHeight - window.innerHeight);
+
+    const updateThumb = () => {
+      const scrollMax = getScrollMax();
+      if (scrollMax <= 1) {
+        bar.classList.add('is-hidden');
+        return;
+      }
+
+      bar.classList.remove('is-hidden');
+
+      const viewportHeight = window.innerHeight;
+      const availableHeight = Math.max(1, viewportHeight - TRACK_INSET * 2);
+      const thumbHeight = Math.max(48, Math.round((viewportHeight / root.scrollHeight) * viewportHeight));
+      const maxThumbTop = Math.max(0, availableHeight - thumbHeight);
+      const progress = Math.max(0, Math.min(1, window.scrollY / scrollMax));
+      const thumbTop = Math.round(TRACK_INSET + progress * maxThumbTop);
+
+      thumb.style.height = `${thumbHeight}px`;
+      thumb.style.transform = `translateY(${thumbTop}px)`;
+    };
+
+    thumb.addEventListener('pointerdown', (event) => {
+      isDragging = true;
+      dragStartY = event.clientY;
+      scrollStartY = window.scrollY;
+      body.classList.add('is-custom-scrollbar-dragging');
+      thumb.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+    });
+
+    const stopDragging = (event) => {
+      if (!isDragging) return;
+      isDragging = false;
+      body.classList.remove('is-custom-scrollbar-dragging');
+      if (event?.pointerId !== undefined) thumb.releasePointerCapture?.(event.pointerId);
+    };
+
+    thumb.addEventListener('pointermove', (event) => {
+      if (!isDragging) return;
+
+      const scrollMax = getScrollMax();
+      const availableHeight = Math.max(1, window.innerHeight - TRACK_INSET * 2);
+      const maxThumbTop = Math.max(1, availableHeight - thumb.offsetHeight);
+      const deltaY = event.clientY - dragStartY;
+      const scrollDelta = deltaY * (scrollMax / maxThumbTop);
+
+      window.scrollTo(0, Math.max(0, Math.min(scrollMax, scrollStartY + scrollDelta)));
+    });
+
+    thumb.addEventListener('pointerup', stopDragging);
+    thumb.addEventListener('pointercancel', stopDragging);
+    window.addEventListener('scroll', updateThumb, { passive: true });
+    window.addEventListener('resize', updateThumb);
+    window.addEventListener('load', updateThumb);
+    updateThumb();
+    window.setTimeout(updateThumb, 250);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupCustomScrollbar, { once: true });
+  } else {
+    setupCustomScrollbar();
+  }
 })();

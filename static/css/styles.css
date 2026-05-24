@@ -29,6 +29,136 @@ body {
         linear-gradient(180deg, #090a0d 0%, #06070a 100%);
 }
 
+/* Site-wide custom scrollbar: native controls are hidden so only the styled thumb remains. */
+html {
+    scrollbar-width: none;
+    scrollbar-color: transparent transparent;
+}
+
+body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:vertical,
+::-webkit-scrollbar-button:horizontal,
+::-webkit-scrollbar-corner {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+.custom-page-scrollbar {
+    position: fixed;
+    top: 0;
+    right: 2px;
+    z-index: 9999;
+    width: 14px;
+    height: 100vh;
+    pointer-events: none;
+    opacity: 1;
+    overflow: visible;
+    transition: opacity 0.18s ease;
+}
+
+.custom-page-scrollbar.is-hidden {
+    opacity: 0;
+}
+
+.custom-page-scrollbar__thumb {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    min-height: 48px;
+    border-radius: 999px;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.custom-page-scrollbar__thumb::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 0;
+    bottom: -10px;
+    width: 12px;
+    border-radius: 999px;
+    pointer-events: none;
+    opacity: 0;
+    background:
+        radial-gradient(ellipse at center,
+            rgba(255, 177, 0, 0.20) 0%,
+            rgba(255, 177, 0, 0.11) 42%,
+            rgba(255, 177, 0, 0.00) 74%);
+    filter: blur(5px);
+    transition: opacity 0.2s ease;
+}
+
+.custom-page-scrollbar__thumb::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 4.5px;
+    bottom: 0;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ffb21a, #f39a00);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        0 6px 14px rgba(255,160,0,0.16);
+    transition:
+        width 0.2s cubic-bezier(.22, 1, .36, 1),
+        right 0.2s cubic-bezier(.22, 1, .36, 1),
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        filter 0.2s ease;
+}
+
+.custom-page-scrollbar__thumb:hover::after,
+body.is-custom-scrollbar-dragging .custom-page-scrollbar__thumb::after {
+    opacity: 1;
+}
+
+.custom-page-scrollbar__thumb:hover::before,
+body.is-custom-scrollbar-dragging .custom-page-scrollbar__thumb::before {
+    right: 2.5px;
+    width: 7px;
+    background: linear-gradient(135deg, #ffc14a, #f39a00);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.42),
+        0 8px 18px rgba(255,160,0,0.24);
+    filter: brightness(1.04);
+}
+
 body::before,
 body::after {
     content: "";
