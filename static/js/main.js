@@ -58,62 +58,1028 @@ if (aboutNavItem && aboutMegaMenu) {
   });
 }
 
+const MAX_COMMAND_LENGTH = 100;
+
+const COMMAND_SYNTAX_KEYWORDS = {
+  move: new Set(['to']),
+  copy: new Set(['to']),
+  rename: new Set(['to']),
+  find: new Set(['in']),
+  count: new Set(['in']),
+};
+
+const PATH_ONLY_COMMANDS = new Set([
+  'info', 'open', 'read', 'clear', 'create', 'delete',
+  'mkdir', 'rmdir', 'clean', 'cd', 'ls',
+]);
+
+const TO_PATH_COMMANDS = new Set(['move', 'copy', 'rename']);
+const IN_PATH_COMMANDS = new Set(['find', 'count']);
+const PYTHON_COMMANDS = new Set(['python']);
+const PYTHON_SCRIPT_SOURCE_OPTIONS = new Set(['-c', '-m']);
+const PYTHON_VALUE_OPTIONS = new Set(['-W', '-X', '--check-hash-based-pycs']);
+const WRITE_COMMANDS = new Set(['write']);
+const REMOVE_COMMANDS = new Set(['remove']);
+
 const terminalSteps = [
   {
-    command: 'help',
-    output: 'ViperTerm - СПРАВКА\n📦 стандартные\n🔧 специальные\n🌐 универсальные\n📄 файловые\n📂 директории\n⚙️ системные\n🐍 python',
+    command: 'diskspace C',
+    rows: [
+      { type: 'warning', text: ' [i] Showing disk space...' },
+      { type: 'normal', text: '' },
+      { type: 'normal', text: '    ==============================' },
+      { type: 'normal', text: '          DRIVE INFORMATION       ' },
+      { type: 'normal', text: '    ==============================' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '> GENERAL:' },
+      { type: 'normal', text: '--------------------' },
+      { type: 'normal', text: '   Volume label     - Windows' },
+      { type: 'normal', text: '   File system      - NTFS' },
+      { type: 'normal', text: '   Serial number    - 3A4F19C2' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '> STORAGE:' },
+      { type: 'normal', text: '--------------------' },
+      { type: 'normal', text: '   Total size       - 476 GB' },
+      { type: 'normal', text: '   Used             - 181 GB (38.1%)' },
+      { type: 'normal', text: '   Free             - 295 GB' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '> STATUS:' },
+      { type: 'normal', text: '--------------------' },
+      { type: 'normal', text: '   Ready            - Yes' },
+      { type: 'normal', text: '   Access           - Read/Write' },
+      { type: 'path_value_row', label: 'Root directory', value: 'C:\\', labelWidth: 16 },
+      { type: 'normal', text: '' },
+      { type: 'success', text: '   Information retrieved successfully' },
+    ],
   },
   {
-    command: 'echo %USERPROFILE%',
-    output: 'C:\\Users\\aaleb',
+    command: 'tree view -d',
+    rows: [
+      { type: 'tree_line', text: '   [view]' },
+      { type: 'tree_line', text: '    │' },
+      { type: 'tree_line', text: '    ├── [custom_frame]' },
+      { type: 'tree_line', text: '    │' },
+      { type: 'tree_line', text: '    ├── [dialogs]' },
+      { type: 'tree_line', text: '    │' },
+      { type: 'tree_line', text: '    ├── [editor]' },
+      { type: 'tree_line', text: '    │    │' },
+      { type: 'tree_line', text: '    │    └── [editor_syntax]' },
+      { type: 'tree_line', text: '    │         │' },
+      { type: 'tree_line', text: '    │         ├── [core]' },
+      { type: 'tree_line', text: '    │         │' },
+      { type: 'tree_line', text: '    │         └── [rules]' },
+      { type: 'tree_line', text: '    │' },
+      { type: 'tree_line', text: '    ├── [edits]' },
+      { type: 'tree_line', text: '    │' },
+      { type: 'tree_line', text: '    ├── [panels]' },
+      { type: 'tree_line', text: '    │' },
+      { type: 'tree_line', text: '    └── [styles]' },
+      { type: 'normal', text: '' },
+      { type: 'success', text: '   📊 Total: 9 directories' },
+    ],
   },
   {
-    command: 'ls',
-    output: '[i] Listing directory contents...\nViperTerm.exe\nsrc\nREADME.md\nutils',
+    command: 'info main.py',
+    rows: [
+      { type: 'warning', text: ' [i] Showing information...' },
+      { type: 'normal', text: '' },
+      { type: 'normal', text: '    ==============================' },
+      { type: 'normal', text: '           FILE INFORMATION       ' },
+      { type: 'normal', text: '    ==============================' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '> GENERAL:' },
+      { type: 'normal', text: '--------------------' },
+      { type: 'normal', text: '   Name         - main.py' },
+      { type: 'normal', text: '   Type         - text file' },
+      { type: 'normal', text: '   Size         - 1 KB' },
+      { type: 'normal', text: '   Extension    - .py' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '> PATHS:' },
+      { type: 'normal', text: '--------------------' },
+      { type: 'path_value_row', label: 'Absolute', value: 'C:\\Users\\aaleb\\ViperTerm\\app\\main.py', labelWidth: 15 },
+      { type: 'path_value_row', label: 'Relative', value: 'app\\main.py', labelWidth: 15 },
+      { type: 'path_value_row', label: 'Root', value: 'C:\\', labelWidth: 15 },
+      { type: 'normal', text: '' },
+      { type: 'success', text: '   Information retrieved successfully' },
+    ],
   },
   {
-    command: 'systeminfo',
-    output: '[i] Информация о системе подготовлена в удобном для чтения виде.',
+    command: 'find -f[terminal_view.py] -e in view',
+    rows: [
+      { type: 'warning', text: ' [i] Searching...' },
+      { type: 'normal', text: '' },
+      {
+        type: 'live_progress',
+        iterations: [
+          { text: '   [i] Searching: C:\\Users\\aaleb\\ViperTerm\\app', hold: 980 },
+          { text: '   [i] Searching: C:\\Users\\aaleb\\ViperTerm\\app\\view', hold: 980 },
+          { text: '   [i] Searching: C:\\Users\\aaleb\\ViperTerm\\app\\view\\dialogs', hold: 980 },
+          { text: '   [i] Searching: C:\\Users\\aaleb\\ViperTerm\\app\\view\\panels', hold: 980 },
+          { text: '   [i] Searching: C:\\Users\\aaleb\\ViperTerm\\app\\view\\terminal_view.py', hold: 980 },
+        ],
+        finalRows: [
+          { type: 'table_row', icon: '📄', left: 'view\\terminal_view.py', right: 'file' },
+        ],
+      },
+      { type: 'normal', text: '' },
+      { type: 'success', text: '   Found: 1 entries' },
+    ],
   },
   {
-    command: 'mkdir demo_folder',
-    output: '✔ Папка успешно создана: demo_folder',
+    command: 'count -s[terminal_view.py] in view',
+    rows: [
+      { type: 'warning', text: ' [i] Counting...' },
+      { type: 'normal', text: '' },
+      {
+        type: 'live_progress',
+        iterations: [
+          { text: '   [i] Counting: C:\\Users\\aaleb\\ViperTerm\\app', hold: 980 },
+          { text: '   [i] Counting: C:\\Users\\aaleb\\ViperTerm\\app\\view', hold: 980 },
+          { text: '   [i] Counting: C:\\Users\\aaleb\\ViperTerm\\app\\view\\custom_frame', hold: 980 },
+          { text: '   [i] Counting: C:\\Users\\aaleb\\ViperTerm\\app\\view\\panels', hold: 980 },
+          { text: '   [i] Counting: C:\\Users\\aaleb\\ViperTerm\\app\\view\\terminal_view.py', hold: 980 },
+        ],
+        finalRows: [
+          { type: 'table_row', icon: '📄', left: 'terminal_view.py', right: '1 917 lines' },
+        ],
+      },
+    ],
+  },
+  {
+    command: 'ls view\\panels',
+    rows: [
+      { type: 'warning', text: ' [i] Listing directory contents...' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '📁 Directories:' },
+      { type: 'normal', text: '  📁 __pycache__' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '📄 Files:' },
+      { type: 'normal', text: '  📄 __init__.py (251 B)' },
+      { type: 'normal', text: '  📄 control_panel.py (10 KB)' },
+      { type: 'normal', text: '  📄 input_panel.py (4 KB)' },
+      { type: 'normal', text: '  📄 status_panel.py (4 KB)' },
+      { type: 'normal', text: '' },
+      { type: 'warning', text: '📊 Total: 1 directories, 4 files' },
+    ],
   },
 ];
 
+const heroTerminalWindow = document.getElementById('heroTerminalWindow');
+const terminalTranscript = document.getElementById('terminalTranscript');
+const terminalPromptLine = document.getElementById('terminalPromptLine');
 const typedCommand = document.getElementById('typedCommand');
 const typedOutput = document.getElementById('typedOutput');
+const heroInfoWindow = document.getElementById('heroInfoWindow');
+const infoPreviewScroll = document.getElementById('infoPreviewScroll');
+const terminalCounter = document.getElementById('terminalCounter');
+
+const TERMINAL_TYPE_INTERVAL = 92;
+const TERMINAL_BEFORE_COMMIT_DELAY = 220;
+const TERMINAL_BEFORE_OUTPUT_DELAY = 150;
+const TERMINAL_OUTPUT_ROW_DELAY = 58;
+const TERMINAL_AFTER_OUTPUT_DELAY = 620;
+const TERMINAL_STEP_PAUSE = 760;
+const TERMINAL_RESET_PAUSE = 720;
+const TERMINAL_RESET_RECOVER_DELAY = 420;
 
 function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  const duration = Math.max(0, Number(ms) || 0);
+
+  return new Promise((resolve) => {
+    const start = performance.now();
+
+    function tick(now) {
+      if (now - start >= duration) {
+        resolve();
+        return;
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  });
 }
 
-async function typeText(node, text, speed = 44) {
-  node.textContent = '';
-  for (const char of text) {
-    node.textContent += char;
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function updateTerminalCounter(length = 0) {
+  if (!terminalCounter) return;
+
+  const value = Math.max(0, Math.min(length, MAX_COMMAND_LENGTH));
+  terminalCounter.textContent = `${value} / ${MAX_COMMAND_LENGTH}`;
+  terminalCounter.classList.remove('is-active', 'is-warning', 'is-danger', 'is-max');
+
+  if (value >= MAX_COMMAND_LENGTH) {
+    terminalCounter.classList.add('is-max');
+  } else if (value >= MAX_COMMAND_LENGTH - 10) {
+    terminalCounter.classList.add('is-danger');
+  } else if (value >= MAX_COMMAND_LENGTH - 20) {
+    terminalCounter.classList.add('is-warning');
+  } else if (value > 0) {
+    terminalCounter.classList.add('is-active');
+  }
+}
+
+function startsWithAnyOption(value, options) {
+  for (const option of options) {
+    if (value.startsWith(option) && value.length > option.length) return true;
+  }
+  return false;
+}
+
+function isPythonScriptSourceOption(value) {
+  return PYTHON_SCRIPT_SOURCE_OPTIONS.has(value) || startsWithAnyOption(value, PYTHON_SCRIPT_SOURCE_OPTIONS);
+}
+
+function isPythonValueOption(value) {
+  return PYTHON_VALUE_OPTIONS.has(value)
+    || value.startsWith('--check-hash-based-pycs=')
+    || startsWithAnyOption(value, new Set(['-W', '-X']));
+}
+
+function nextCommandWord(command, startIndex) {
+  let index = startIndex;
+  const quote = command[index] === '"' || command[index] === "'" ? command[index] : null;
+
+  if (quote) {
+    index += 1;
+    while (index < command.length && command[index] !== quote) index += 1;
+    if (index < command.length) index += 1;
+    return { start: startIndex, end: index, text: command.slice(startIndex, index), isQuoted: true };
+  }
+
+  while (
+    index < command.length
+    && !/\s/.test(command[index])
+    && command[index] !== '"'
+    && command[index] !== "'"
+  ) {
+    index += 1;
+  }
+
+  return { start: startIndex, end: index, text: command.slice(startIndex, index), isQuoted: false };
+}
+
+function commandSegments(command) {
+  const segments = [];
+  let index = 0;
+  let wordIndex = 0;
+  let commandName = null;
+  let allowedSyntaxKeywords = new Set();
+  let syntaxKeywordSeen = false;
+  let writePathSeen = false;
+  let removeModeSeen = false;
+  let removePathSeen = false;
+  let pythonValueOptionPending = false;
+  let pythonScriptSourceMode = false;
+  let pythonScriptPathSeen = false;
+  let pythonOptionsFinished = false;
+
+  while (index < command.length) {
+    if (/\s/.test(command[index])) {
+      const start = index;
+      while (index < command.length && /\s/.test(command[index])) index += 1;
+      segments.push({ text: command.slice(start, index), className: 'terminal-command-arg' });
+      continue;
+    }
+
+    const word = nextCommandWord(command, index);
+    index = word.end;
+
+    const rawWord = word.text;
+    const normalizedWord = rawWord.toLowerCase();
+    const pathClass = 'terminal-command-path';
+    const argumentClass = word.isQuoted ? 'terminal-command-quote' : 'terminal-command-arg';
+    let className = argumentClass;
+
+    const isSyntaxKeyword = !word.isQuoted && allowedSyntaxKeywords.has(normalizedWord);
+    const isSyntaxKeywordPrefix = (
+      !word.isQuoted
+      && !syntaxKeywordSeen
+      && wordIndex > 1
+      && Boolean(normalizedWord)
+      && Array.from(allowedSyntaxKeywords).some((keyword) => keyword.startsWith(normalizedWord))
+    );
+
+    if (wordIndex === 0) {
+      commandName = normalizedWord;
+      allowedSyntaxKeywords = COMMAND_SYNTAX_KEYWORDS[commandName] || new Set();
+      className = 'terminal-command-name';
+    } else if (isSyntaxKeyword) {
+      className = 'terminal-command-name';
+      syntaxKeywordSeen = true;
+    } else if (isSyntaxKeywordPrefix) {
+      className = 'terminal-command-name';
+    } else if (PATH_ONLY_COMMANDS.has(commandName)) {
+      className = pathClass;
+    } else if (TO_PATH_COMMANDS.has(commandName)) {
+      className = pathClass;
+    } else if (IN_PATH_COMMANDS.has(commandName) && syntaxKeywordSeen) {
+      className = pathClass;
+    } else if (PYTHON_COMMANDS.has(commandName)) {
+      if (pythonValueOptionPending) {
+        className = argumentClass;
+        pythonValueOptionPending = false;
+      } else if (pythonScriptSourceMode) {
+        className = argumentClass;
+      } else if (!pythonOptionsFinished && normalizedWord === '--') {
+        className = argumentClass;
+        pythonOptionsFinished = true;
+      } else if (!pythonOptionsFinished && isPythonScriptSourceOption(normalizedWord)) {
+        className = argumentClass;
+        pythonScriptSourceMode = true;
+        pythonValueOptionPending = PYTHON_SCRIPT_SOURCE_OPTIONS.has(normalizedWord);
+      } else if (!pythonOptionsFinished && isPythonValueOption(normalizedWord)) {
+        className = argumentClass;
+        pythonValueOptionPending = PYTHON_VALUE_OPTIONS.has(normalizedWord);
+      } else if (!pythonScriptPathSeen && (pythonOptionsFinished || !normalizedWord.startsWith('-'))) {
+        className = pathClass;
+        pythonScriptPathSeen = true;
+      } else {
+        className = argumentClass;
+      }
+    } else if (WRITE_COMMANDS.has(commandName)) {
+      if (!writePathSeen && !normalizedWord.startsWith('-') && !normalizedWord.startsWith('[')) {
+        className = pathClass;
+        writePathSeen = true;
+      } else {
+        className = argumentClass;
+      }
+    } else if (REMOVE_COMMANDS.has(commandName)) {
+      if (!removeModeSeen) {
+        className = argumentClass;
+        removeModeSeen = true;
+      } else if (!removePathSeen) {
+        className = pathClass;
+        removePathSeen = true;
+      } else {
+        className = argumentClass;
+      }
+    }
+
+    segments.push({ text: rawWord, className });
+    wordIndex += 1;
+  }
+
+  return segments;
+}
+
+function formatCommand(command) {
+  return commandSegments(command)
+    .map((segment) => `<span class="${segment.className}">${escapeHtml(segment.text)}</span>`)
+    .join('');
+}
+
+function outputRowClass(row = {}) {
+  if (row.type === 'success') return 'is-success';
+  if (row.type === 'warning' || row.type === 'progress' || row.type === 'warning_table_row' || row.type === 'section_header') return 'is-warning';
+  if (row.type === 'error') return 'is-error';
+  if (row.type === 'path_row') return 'is-path';
+  if (row.type === 'tree_line') return 'is-tree-line';
+  if (row.type === 'table_row' || row.type === 'path_value_row') return 'is-responsive-row';
+  return 'is-normal';
+}
+
+function getTerminalCharacterWidth() {
+  if (!terminalTranscript) return 9;
+
+  const computed = window.getComputedStyle(terminalTranscript);
+  const probe = document.createElement('span');
+  probe.textContent = '0000000000';
+  probe.style.position = 'absolute';
+  probe.style.visibility = 'hidden';
+  probe.style.whiteSpace = 'pre';
+  probe.style.fontFamily = computed.fontFamily;
+  probe.style.fontSize = computed.fontSize;
+  probe.style.fontWeight = computed.fontWeight;
+  terminalTranscript.appendChild(probe);
+
+  const width = probe.getBoundingClientRect().width / 10;
+  probe.remove();
+
+  return Math.max(1, width || 9);
+}
+
+function terminalVisibleColumns() {
+  if (!terminalTranscript) return 72;
+
+  const charWidth = getTerminalCharacterWidth();
+  const usableWidth = Math.max(120, terminalTranscript.clientWidth - 8);
+  return Math.max(20, Math.floor(usableWidth / charWidth));
+}
+
+function compactVisibleText(value = '', maxLength = 8) {
+  const text = String(value);
+  const length = Math.max(0, Math.floor(maxLength));
+
+  if (length <= 0) return '';
+  if (text.length <= length) return text;
+  if (length <= 3) return '.'.repeat(length);
+
+  return `...${text.slice(-(length - 3))}`;
+}
+
+function padRight(value = '', width = 0) {
+  const text = String(value);
+  const length = Math.max(0, Math.floor(width));
+  if (text.length >= length) return text;
+  return text + ' '.repeat(length - text.length);
+}
+
+function responsiveRightReservedWidth(right = '') {
+  const value = String(right || '');
+
+  if (value === 'file' || value === 'dir') return value.length;
+  if (value.endsWith(' characters')) return 22;
+  if (value.endsWith(' directories') || value.endsWith(' files') || value.endsWith(' lines')) return 16;
+
+  return Math.max(12, value.length);
+}
+
+function formatResponsivePathValueRow(row = {}) {
+  const label = String(row.label ?? row.row_left ?? row.left ?? '');
+  const path = String(row.value ?? row.row_right ?? row.right ?? '');
+  const iconPart = row.icon ? `${row.icon} ` : '';
+  const prefix = `   ${iconPart}`;
+  const separator = ' - ';
+  const labelWidth = Math.max(Number(row.labelWidth ?? row.rightWidth ?? 0) || 0, label.length);
+  const fixedWidth = prefix.length + labelWidth + separator.length + 2;
+  const pathWidth = Math.max(8, terminalVisibleColumns() - fixedWidth);
+  const compactPath = compactVisibleText(path, pathWidth);
+
+  return `${prefix}${padRight(label, labelWidth)}${separator}${compactPath}`;
+}
+
+function formatResponsivePathRow(row = {}) {
+  const prefix = `   ${row.icon || ''} `;
+  const leftWidth = Math.max(8, terminalVisibleColumns() - prefix.length - 2);
+  return `${prefix}${compactVisibleText(row.left || row.path || row.text || '', leftWidth)}`;
+}
+
+function formatResponsiveTableRow(row = {}) {
+  const icon = row.icon || '';
+  const left = String(row.left ?? row.row_left ?? '');
+  const right = String(row.right ?? row.row_right ?? '');
+  const prefix = `   ${icon} `;
+  const separator = ' │ ';
+  const explicitRightWidth = Number(row.rightWidth ?? row.row_right_width);
+  const rightWidth = Math.max(Number.isFinite(explicitRightWidth) ? explicitRightWidth : right.length, right.length);
+  const fixedWidth = prefix.length + separator.length + rightWidth + 2;
+  const leftWidth = Math.max(8, terminalVisibleColumns() - fixedWidth);
+  const compactLeft = compactVisibleText(left, leftWidth);
+
+  return `${prefix}${padRight(compactLeft, leftWidth)}${separator}${right}`;
+}
+
+function formatProgressOutputText(text = '') {
+  const value = String(text);
+  const columns = terminalVisibleColumns();
+  const maxWidth = Math.max(8, columns - 1);
+
+  for (const prefix of ['   [i] Searching: ', '   [i] Counting: ']) {
+    if (value.startsWith(prefix)) {
+      const pathWidth = Math.max(8, maxWidth - prefix.length);
+      return `${prefix}${compactVisibleText(value.slice(prefix.length), pathWidth)}`;
+    }
+  }
+
+  if (value.length <= maxWidth) return value;
+
+  return compactVisibleText(value, maxWidth);
+}
+
+function outputRowText(row = {}) {
+  if (row.type === 'path_value_row') return formatResponsivePathValueRow(row);
+  if (row.type === 'path_row') return formatResponsivePathRow(row);
+  if (row.type === 'table_row' || row.type === 'warning_table_row') return formatResponsiveTableRow(row);
+  if (row.type === 'progress') return formatProgressOutputText(row.text || '');
+  if (row.type === 'section_header') return `${row.text || ''}\n${row.underline || '--------------------'}`;
+  return row.text || '';
+}
+
+function formatTreeLine(value = '') {
+  const line = String(value);
+  const match = line.match(/^(.*?)(\[[^\]]+\])$/);
+
+  if (!match) return escapeHtml(line);
+
+  return `${escapeHtml(match[1])}<span class="terminal-tree-directory">${escapeHtml(match[2])}</span>`;
+}
+
+function applyOutputRowToElement(element, row = {}) {
+  if (!element) return;
+
+  element.className = `terminal-output-row ${outputRowClass(row)}`;
+  element._terminalRow = { ...row };
+
+  if (row.type === 'tree_line') {
+    element.innerHTML = formatTreeLine(row.text || '');
+    return;
+  }
+
+  if (row.type === 'section_header') {
+    element.innerHTML = `<span class="terminal-section-title">${escapeHtml(row.text || '')}</span>\n<span class="terminal-section-rule">${escapeHtml(row.underline || '--------------------')}</span>`;
+    return;
+  }
+
+  element.textContent = outputRowText(row);
+}
+
+function createOutputRowElement(row = {}) {
+  const element = document.createElement('div');
+  applyOutputRowToElement(element, row);
+  return element;
+}
+
+function reflowResponsiveOutputRows() {
+  if (!terminalTranscript) return;
+
+  terminalTranscript.querySelectorAll('.terminal-output-row').forEach((element) => {
+    const row = element._terminalRow;
+    if (!row || row.type === 'tree_line' || row.type === 'section_header') return;
+    element.textContent = outputRowText(row);
+  });
+
+  keepTerminalBottom(true);
+}
+
+async function typeCommand(node, command, speed = TERMINAL_TYPE_INTERVAL) {
+  if (!node) return;
+
+  node.innerHTML = '';
+  updateTerminalCounter(0);
+
+  for (let index = 0; index < command.length; index += 1) {
+    const current = command.slice(0, index + 1);
+    node.innerHTML = formatCommand(current);
+    updateTerminalCounter(current.length);
+    keepTerminalBottom();
     await sleep(speed);
   }
 }
 
-async function playTerminal() {
-  if (!typedCommand || !typedOutput) return;
+function hideActivePrompt() {
+  terminalPromptLine?.classList.add('is-waiting');
+}
 
-  let index = 0;
-  while (true) {
-    const step = terminalSteps[index % terminalSteps.length];
-    typedOutput.textContent = '';
-    await typeText(typedCommand, step.command, 42);
-    await sleep(260);
-    typedOutput.textContent = step.output;
-    await sleep(1850);
-    typedCommand.textContent = '';
-    typedOutput.textContent = '';
-    await sleep(260);
-    index += 1;
+function showActivePrompt() {
+  terminalPromptLine?.classList.remove('is-waiting');
+  keepTerminalBottom();
+}
+
+let terminalScrollAnimation = null;
+let terminalScrollTarget = 0;
+
+function keepTerminalBottom(immediate = false) {
+  if (!terminalTranscript) return;
+
+  terminalScrollTarget = Math.max(0, terminalTranscript.scrollHeight - terminalTranscript.clientHeight);
+
+  if (immediate) {
+    if (terminalScrollAnimation !== null) {
+      cancelAnimationFrame(terminalScrollAnimation);
+      terminalScrollAnimation = null;
+    }
+    terminalTranscript.scrollTop = terminalScrollTarget;
+    return;
+  }
+
+  if (terminalScrollAnimation !== null) return;
+
+  const glide = () => {
+    const current = terminalTranscript.scrollTop;
+    const delta = terminalScrollTarget - current;
+
+    if (Math.abs(delta) < 0.5) {
+      terminalTranscript.scrollTop = terminalScrollTarget;
+      terminalScrollAnimation = null;
+      return;
+    }
+
+    terminalTranscript.scrollTop = current + delta * 0.24;
+    terminalScrollAnimation = requestAnimationFrame(glide);
+  };
+
+  terminalScrollAnimation = requestAnimationFrame(glide);
+}
+
+function commitCommandBlock(command) {
+  if (!terminalTranscript || !terminalPromptLine) return null;
+
+  const block = document.createElement('div');
+  block.className = 'terminal-block';
+
+  const commandLine = document.createElement('div');
+  commandLine.className = 'terminal-line prompt';
+  commandLine.innerHTML = `<span class="terminal-prompt-mark">&gt;&gt;&gt;</span> ${formatCommand(command)}`;
+
+  const spacer = document.createElement('div');
+  spacer.className = 'terminal-output-spacer';
+
+  const output = document.createElement('div');
+  output.className = 'terminal-output-block';
+
+  block.append(commandLine, spacer, output);
+  terminalTranscript.insertBefore(block, terminalPromptLine);
+
+  const blocks = terminalTranscript.querySelectorAll('.terminal-block');
+  if (blocks.length > 3) blocks[0].remove();
+
+  keepTerminalBottom();
+  return output;
+}
+
+async function flushLiveProgressRows(container, row = {}) {
+  const iterations = Array.isArray(row.iterations) ? row.iterations : [];
+  const finalRows = Array.isArray(row.finalRows) ? row.finalRows : [];
+  let progressElement = null;
+
+  for (const iteration of iterations) {
+    const progressRow = {
+      type: 'progress',
+      text: iteration.text || '',
+    };
+
+    if (!progressElement) {
+      progressElement = createOutputRowElement(progressRow);
+      progressElement.classList.add('is-live-progress');
+      container.appendChild(progressElement);
+    } else {
+      applyOutputRowToElement(progressElement, progressRow);
+      progressElement.classList.add('is-live-progress');
+    }
+
+    keepTerminalBottom();
+    await sleep(Number(iteration.hold) || 760);
+
+    const revealedRows = Array.isArray(iteration.rows) ? iteration.rows : [];
+    for (const revealedRow of revealedRows) {
+      const revealedElement = createOutputRowElement(revealedRow);
+
+      if (progressElement) {
+        progressElement.replaceWith(revealedElement);
+        progressElement = null;
+      } else {
+        container.appendChild(revealedElement);
+      }
+
+      keepTerminalBottom();
+      await sleep(TERMINAL_OUTPUT_ROW_DELAY);
+    }
+  }
+
+  for (let index = 0; index < finalRows.length; index += 1) {
+    const element = createOutputRowElement(finalRows[index]);
+
+    if (index === 0 && progressElement) {
+      progressElement.replaceWith(element);
+      progressElement = null;
+    } else {
+      container.appendChild(element);
+    }
+
+    keepTerminalBottom();
+    await sleep(TERMINAL_OUTPUT_ROW_DELAY);
+  }
+
+  if (progressElement) {
+    progressElement.remove();
+    keepTerminalBottom();
   }
 }
 
+async function flushOutputRows(container, rows = []) {
+  if (!container) return;
+
+  let transientRowElement = null;
+
+  for (const row of rows) {
+    if (row.type === 'live_progress') {
+      if (transientRowElement) {
+        transientRowElement.remove();
+        transientRowElement = null;
+      }
+
+      await flushLiveProgressRows(container, row);
+      continue;
+    }
+
+    if (row.transient) {
+      const nextTransientRowElement = createOutputRowElement(row);
+
+      if (transientRowElement) {
+        transientRowElement.replaceWith(nextTransientRowElement);
+      } else {
+        container.appendChild(nextTransientRowElement);
+      }
+
+      transientRowElement = nextTransientRowElement;
+      keepTerminalBottom();
+      await sleep(Number(row.hold) || 360);
+      continue;
+    }
+
+    const element = createOutputRowElement(row);
+
+    if (transientRowElement) {
+      transientRowElement.replaceWith(element);
+      transientRowElement = null;
+    } else {
+      container.appendChild(element);
+    }
+
+    keepTerminalBottom();
+    await sleep(TERMINAL_OUTPUT_ROW_DELAY);
+  }
+}
+
+function resetTerminalTranscript() {
+  if (!terminalTranscript || !terminalPromptLine) return;
+
+  terminalTranscript.querySelectorAll('.terminal-block').forEach((block) => block.remove());
+  if (typedOutput) typedOutput.innerHTML = '';
+  if (typedCommand) typedCommand.innerHTML = '';
+  terminalPromptLine.classList.remove('is-waiting');
+  updateTerminalCounter(0);
+  keepTerminalBottom(true);
+}
+
+async function playTerminal() {
+  if (!typedCommand || !terminalTranscript || !terminalPromptLine) return;
+
+  let index = 0;
+  let cycleCount = 0;
+
+  while (true) {
+    const step = terminalSteps[index % terminalSteps.length];
+
+    showActivePrompt();
+    if (typedOutput) typedOutput.innerHTML = '';
+    typedCommand.innerHTML = '';
+    await typeCommand(typedCommand, step.command);
+    keepTerminalBottom();
+    await sleep(TERMINAL_BEFORE_COMMIT_DELAY);
+
+    const outputContainer = commitCommandBlock(step.command);
+    typedCommand.innerHTML = '';
+    updateTerminalCounter(0);
+    hideActivePrompt();
+
+    await sleep(TERMINAL_BEFORE_OUTPUT_DELAY);
+    await flushOutputRows(outputContainer, step.rows);
+    await sleep(TERMINAL_AFTER_OUTPUT_DELAY);
+    showActivePrompt();
+    await sleep(TERMINAL_STEP_PAUSE);
+
+    index += 1;
+    cycleCount += 1;
+
+    if (cycleCount >= terminalSteps.length) {
+      await sleep(TERMINAL_RESET_PAUSE);
+      resetTerminalTranscript();
+      cycleCount = 0;
+      await sleep(TERMINAL_RESET_RECOVER_DELAY);
+    }
+  }
+}
+
+function scheduleTerminalReflow() {
+  window.setTimeout(reflowResponsiveOutputRows, 280);
+}
+
+function setupTerminalWindowControls() {
+  if (!heroTerminalWindow) return;
+
+  const maxButton = heroTerminalWindow.querySelector('[data-window-action="maximize"]');
+  let closeTimeout = null;
+
+  const syncMaxButton = () => {
+    const isMaximized = heroTerminalWindow.classList.contains('is-maximized');
+    maxButton?.setAttribute('aria-label', isMaximized ? 'Восстановить' : 'Развернуть');
+  };
+
+  const clearCloseTimeout = () => {
+    if (closeTimeout) {
+      window.clearTimeout(closeTimeout);
+      closeTimeout = null;
+    }
+  };
+
+  heroTerminalWindow.querySelectorAll('[data-window-action]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const action = button.getAttribute('data-window-action');
+      clearCloseTimeout();
+
+      if (action === 'minimize') {
+        heroTerminalWindow.classList.remove('is-closed');
+
+        if (heroTerminalWindow.classList.contains('is-minimized')) {
+          heroTerminalWindow.classList.remove('is-minimized');
+        } else {
+          heroTerminalWindow.classList.remove('is-maximized');
+          heroTerminalWindow.classList.add('is-minimized');
+        }
+
+        syncMaxButton();
+        scheduleTerminalReflow();
+        return;
+      }
+
+      if (action === 'maximize') {
+        heroTerminalWindow.classList.remove('is-closed');
+        heroTerminalWindow.classList.remove('is-minimized');
+        heroTerminalWindow.classList.toggle('is-maximized');
+        syncMaxButton();
+        scheduleTerminalReflow();
+        return;
+      }
+
+      if (action === 'close') {
+        heroTerminalWindow.classList.remove('is-minimized', 'is-maximized');
+        heroTerminalWindow.classList.add('is-closed');
+        syncMaxButton();
+
+        closeTimeout = window.setTimeout(() => {
+          heroTerminalWindow.classList.remove('is-closed');
+          scheduleTerminalReflow();
+          closeTimeout = null;
+        }, 980);
+      }
+    });
+  });
+
+  syncMaxButton();
+}
+
+function setupInfoWindowControls() {
+  if (!heroInfoWindow) return;
+
+  const maxButton = heroInfoWindow.querySelector('[data-info-window-action="maximize"]');
+  let closeTimeout = null;
+
+  const syncMaxButton = () => {
+    const isMaximized = heroInfoWindow.classList.contains('is-maximized');
+    maxButton?.setAttribute('aria-label', isMaximized ? 'Восстановить' : 'Развернуть');
+  };
+
+  const clearCloseTimeout = () => {
+    if (closeTimeout) {
+      window.clearTimeout(closeTimeout);
+      closeTimeout = null;
+    }
+  };
+
+  heroInfoWindow.querySelectorAll('[data-info-window-action]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const action = button.getAttribute('data-info-window-action');
+      clearCloseTimeout();
+
+      if (action === 'minimize') {
+        heroInfoWindow.classList.remove('is-closed');
+
+        if (heroInfoWindow.classList.contains('is-minimized')) {
+          heroInfoWindow.classList.remove('is-minimized');
+        } else {
+          heroInfoWindow.classList.remove('is-maximized');
+          heroInfoWindow.classList.add('is-minimized');
+        }
+
+        syncMaxButton();
+        return;
+      }
+
+      if (action === 'maximize') {
+        heroInfoWindow.classList.remove('is-closed');
+        heroInfoWindow.classList.remove('is-minimized');
+        heroInfoWindow.classList.toggle('is-maximized');
+        syncMaxButton();
+        return;
+      }
+
+      if (action === 'close') {
+        heroInfoWindow.classList.remove('is-minimized', 'is-maximized');
+        heroInfoWindow.classList.add('is-closed');
+        syncMaxButton();
+
+        closeTimeout = window.setTimeout(() => {
+          heroInfoWindow.classList.remove('is-closed');
+          closeTimeout = null;
+        }, 980);
+      }
+    });
+  });
+
+  syncMaxButton();
+}
+
+function setupInfoPreviewAnimation() {
+  if (!heroInfoWindow || !infoPreviewScroll) return;
+
+  const viewport = heroInfoWindow.querySelector('.info-preview-scroll-viewport');
+  const thumb = heroInfoWindow.querySelector('.info-preview-thumb');
+  const cursor = heroInfoWindow.querySelector('.info-preview-cursor');
+  const scrollbar = heroInfoWindow.querySelector('.info-preview-scrollbar');
+  const body = heroInfoWindow.querySelector('.info-preview-body');
+
+  if (!viewport || !thumb || !scrollbar || !body) return;
+
+  const cycleDuration = 16000;
+  let startTime = null;
+
+  const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+  const easeInOut = (t) => 0.5 - Math.cos(Math.PI * clamp(t)) / 2;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  const scrollProgressFor = (progress) => {
+    if (progress < 0.16) return 0;
+    if (progress < 0.70) return easeInOut((progress - 0.16) / 0.54);
+    if (progress < 0.84) return 1;
+    if (progress < 0.96) return lerp(1, 0, easeInOut((progress - 0.84) / 0.12));
+    return 0;
+  };
+
+  const cursorOpacityFor = (progress) => {
+    if (progress < 0.10) return 0;
+    if (progress < 0.16) return easeInOut((progress - 0.10) / 0.06);
+    if (progress < 0.72) return 1;
+    if (progress < 0.80) return 1 - easeInOut((progress - 0.72) / 0.08);
+    return 0;
+  };
+
+  const render = (now) => {
+    if (!viewport.isConnected) return;
+
+    if (startTime === null) startTime = now;
+
+    const hidden = heroInfoWindow.classList.contains('is-minimized') ||
+      heroInfoWindow.classList.contains('is-closed');
+
+    const viewportHeight = viewport.clientHeight;
+    const contentHeight = infoPreviewScroll.scrollHeight;
+    const trackHeight = scrollbar.clientHeight;
+    const maxScroll = Math.max(0, contentHeight - viewportHeight);
+    const thumbHeight = maxScroll <= 0
+      ? trackHeight
+      : Math.max(24, (viewportHeight / contentHeight) * trackHeight);
+    const maxThumbTravel = Math.max(0, trackHeight - thumbHeight);
+
+    thumb.style.height = `${thumbHeight}px`;
+
+    if (!hidden) {
+      const progress = ((now - startTime) % cycleDuration) / cycleDuration;
+      const scrollProgress = scrollProgressFor(progress);
+      const scrollY = maxScroll * scrollProgress;
+      const thumbY = maxThumbTravel * scrollProgress;
+
+      infoPreviewScroll.style.transform = `translate3d(0, ${-scrollY}px, 0)`;
+      thumb.style.transform = `translate3d(0, ${thumbY}px, 0)`;
+
+      if (cursor) {
+        const bodyRect = body.getBoundingClientRect();
+        const trackRect = scrollbar.getBoundingClientRect();
+        const cursorX = trackRect.left - bodyRect.left - 5;
+        const thumbCenterY = trackRect.top - bodyRect.top + thumbY + Math.min(thumbHeight * 0.5, 28);
+        const approachOffset = progress < 0.16 ? lerp(-18, 0, easeInOut((progress - 0.10) / 0.06)) : 0;
+        const releaseOffset = progress > 0.70 && progress < 0.80 ? lerp(0, 10, easeInOut((progress - 0.70) / 0.10)) : 0;
+        const cursorY = thumbCenterY + approachOffset + releaseOffset;
+        const pressedScale = progress > 0.18 && progress < 0.70 ? 0.96 : 1;
+
+        cursor.style.opacity = `${cursorOpacityFor(progress)}`;
+        cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) scale(${pressedScale})`;
+      }
+    } else if (cursor) {
+      cursor.style.opacity = '0';
+    }
+
+    window.requestAnimationFrame(render);
+  };
+
+  infoPreviewScroll.style.transform = 'translate3d(0, 0, 0)';
+  thumb.style.transform = 'translate3d(0, 0, 0)';
+  if (cursor) {
+    cursor.style.opacity = '0';
+    cursor.style.transform = 'translate3d(0, 0, 0) scale(1)';
+  }
+
+  window.requestAnimationFrame(render);
+}
+
+window.addEventListener('resize', () => {
+  window.requestAnimationFrame(reflowResponsiveOutputRows);
+});
+
+updateTerminalCounter(0);
+setupTerminalWindowControls();
+setupInfoWindowControls();
+setupInfoPreviewAnimation();
 playTerminal();
 
 const observer = new IntersectionObserver((entries) => {
@@ -680,7 +1646,7 @@ if (editorShell) {
     if (!root || !body || document.querySelector('.custom-page-scrollbar')) return;
 
     const bar = document.createElement('div');
-    bar.className = 'custom-page-scrollbar is-hidden';
+    bar.className = 'custom-page-scrollbar is-hidden is-initializing';
 
     const thumb = document.createElement('div');
     thumb.className = 'custom-page-scrollbar__thumb';
@@ -690,28 +1656,53 @@ if (editorShell) {
     let isDragging = false;
     let dragStartY = 0;
     let scrollStartY = 0;
+    let isReady = false;
 
     const TRACK_INSET = 12;
     const getScrollMax = () => Math.max(0, root.scrollHeight - window.innerHeight);
 
-    const updateThumb = () => {
+    const updateThumb = (allowReveal = isReady) => {
       const scrollMax = getScrollMax();
+      const viewportHeight = window.innerHeight;
+      const documentHeight = Math.max(viewportHeight, root.scrollHeight);
+
       if (scrollMax <= 1) {
         bar.classList.add('is-hidden');
         return;
       }
 
-      bar.classList.remove('is-hidden');
-
-      const viewportHeight = window.innerHeight;
       const availableHeight = Math.max(1, viewportHeight - TRACK_INSET * 2);
-      const thumbHeight = Math.max(48, Math.round((viewportHeight / root.scrollHeight) * viewportHeight));
+      const thumbHeight = Math.max(48, Math.round((viewportHeight / documentHeight) * viewportHeight));
       const maxThumbTop = Math.max(0, availableHeight - thumbHeight);
       const progress = Math.max(0, Math.min(1, window.scrollY / scrollMax));
       const thumbTop = Math.round(TRACK_INSET + progress * maxThumbTop);
 
       thumb.style.height = `${thumbHeight}px`;
       thumb.style.transform = `translateY(${thumbTop}px)`;
+
+      if (allowReveal) {
+        bar.classList.remove('is-hidden');
+      }
+    };
+
+    const revealWhenStable = () => {
+      const finish = () => {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            isReady = true;
+            updateThumb(true);
+            bar.classList.remove('is-initializing');
+          });
+        });
+      };
+
+      updateThumb(false);
+
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(finish).catch(finish);
+      } else {
+        finish();
+      }
     };
 
     thumb.addEventListener('pointerdown', (event) => {
@@ -744,11 +1735,15 @@ if (editorShell) {
 
     thumb.addEventListener('pointerup', stopDragging);
     thumb.addEventListener('pointercancel', stopDragging);
-    window.addEventListener('scroll', updateThumb, { passive: true });
-    window.addEventListener('resize', updateThumb);
-    window.addEventListener('load', updateThumb);
-    updateThumb();
-    window.setTimeout(updateThumb, 250);
+    window.addEventListener('scroll', () => updateThumb(), { passive: true });
+    window.addEventListener('resize', () => updateThumb());
+    window.addEventListener('load', revealWhenStable, { once: true });
+
+    updateThumb(false);
+
+    if (document.readyState === 'complete') {
+      revealWhenStable();
+    }
   };
 
   if (document.readyState === 'loading') {

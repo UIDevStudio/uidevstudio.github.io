@@ -465,151 +465,416 @@ button { font: inherit; cursor: pointer; }
 
 .hero-visual {
     position: relative;
-    min-height: 680px;
+    min-height: 720px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 18px;
 }
 .terminal-shell {
     position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    width: clamp(360px, 36vw, 520px);
+    max-width: 100%;
+    height: clamp(360px, 36vw, 520px);
     overflow: hidden;
-    border-radius: 28px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: #060708;
-    box-shadow: var(--shadow);
+    border-radius: 12px;
+    border: 1px solid #1f2023;
+    background: #1e1f22;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(0, 245, 255, 0.08);
+    transform-origin: center top;
+    transition:
+        height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease;
 }
 .live-terminal::after {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: none;
+}
+.terminal-shell.is-minimized {
+    height: 36px;
+    transform: translateY(8px) scale(0.985);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+.terminal-shell.is-minimized .terminal-screen,
+.terminal-shell.is-minimized .terminal-status-bar {
+    opacity: 0;
+    transform: translateY(10px);
+    transition-delay: 0ms;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent 22%, transparent 78%, rgba(255,255,255,0.03));
+}
+.terminal-shell.is-maximized {
+    z-index: 5;
+    transform: translate(22px, -20px) scale(1.08);
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12);
+}
+.terminal-shell.is-closed {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    filter: grayscale(0.2) saturate(0.85);
+    pointer-events: none;
 }
 .terminal-topbar {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    min-height: 48px;
-    padding: 0 0 0 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    min-height: 36px;
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
 }
 .windows-topbar {
-    background: linear-gradient(180deg, rgba(20, 23, 31, 0.98), rgba(10, 12, 16, 0.96));
+    background: linear-gradient(180deg, #151820 0%, #101219 52%, #07090d 100%);
 }
 .window-title-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
     min-width: 0;
+    padding-left: 8px;
 }
 .window-app-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 6px;
-    object-fit: cover;
+    width: 28px;
+    height: 36px;
+    padding: 7px 4px;
+    border-radius: 0;
+    object-fit: contain;
 }
 .terminal-topbar small {
-    color: #cfd6e6;
-    font-family: "Segoe UI", Arial, sans-serif;
-    font-size: 0.9rem;
+    color: #ffffff;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .window-controls {
     display: inline-flex;
-    align-items: stretch;
+    align-items: center;
+    align-self: stretch;
+    gap: 0;
+    height: 36px;
     margin-left: auto;
-    color: #f2f4f8;
-    height: 48px;
+    padding: 4px 4px 4px 0;
+    color: #ffffff;
     overflow: hidden;
-    border-top-right-radius: 28px;
 }
-
-.window-controls span {
-    width: 46px;
-    height: 48px;
-    display: inline-block;
+.window-control {
+    width: 36px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    opacity: 1;
-    flex: 0 0 46px;
-    transition: background-color 0.14s ease;
-}
-
-.window-controls span:hover {
-    background: rgba(255,255,255,0.08);
-}
-
-.window-controls span:nth-child(1)::before,
-.window-controls span:nth-child(2)::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-}
-.window-controls span:nth-child(1)::before {
-    width: 11px;
-    height: 1.5px;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-}
-
-.window-controls span:nth-child(2)::before {
-    width: 10px;
-    height: 9px;
-    border: 1.5px solid currentColor;
+    flex: 0 0 36px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 8px;
     background: transparent;
-    transform: translate(-50%, -50%);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: background-color 160ms ease;
 }
-
-.window-controls span:nth-child(3)::before,
-.window-controls span:nth-child(3)::after {
-    content: "";
+.window-control:focus-visible {
+    outline: 1px solid rgba(255, 255, 255, 0.32);
+    outline-offset: -2px;
+}
+.window-control-min:hover,
+.window-control-max:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.window-control-min:active,
+.window-control-max:active {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+.window-control-close:hover {
+    background-color: #cf2219;
+}
+.window-control-close:active {
+    background-color: #a81c15;
+}
+.window-control .control-icon {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.window-control .control-icon img {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 12px;
-    height: 1.5px;
-    background: currentColor;
-    border-radius: 2px;
+    inset: 0;
+    width: 16px;
+    height: 16px;
+    display: block;
+    transition: opacity 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-.window-controls span:nth-child(3)::before {
-    transform: translate(-50%, -50%) rotate(45deg);
+.window-control:hover .control-icon {
+    transform: translateY(-1px);
 }
-
-.window-controls span:nth-child(3)::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
+.window-control:active .control-icon {
+    transform: translateY(1px);
 }
-
-.window-controls span:nth-child(3):hover {
-    background: #e81123;
+.control-icon-restore {
+    opacity: 0;
+    transform: scale(0.9);
 }
-
-.window-controls span:nth-child(3):hover::before,
-.window-controls span:nth-child(3):hover::after {
-    background: #ffffff;
+.terminal-shell.is-maximized .control-icon-maximize {
+    opacity: 0;
+    transform: scale(0.9);
+}
+.terminal-shell.is-maximized .control-icon-restore {
+    opacity: 1;
+    transform: scale(1);
 }
 .terminal-screen {
-    min-height: 440px;
-    padding: 28px;
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 16px 16px 88px;
+    background: #000000;
+    color: #ffffff;
     font-family: Consolas, "Courier New", monospace;
-    font-size: 1rem;
-    line-height: 1.9;
+    font-size: clamp(0.96rem, 1vw, 1.05rem);
+    line-height: 1.55;
+    transition:
+        opacity 170ms ease 90ms,
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
 }
-.terminal-line.dim { color: #fff; }
-.terminal-line.prompt span:first-child { color: #fff; }
-#typedCommand { color: #4b7dff; }
+.terminal-control-panel-handle {
+    position: absolute;
+    top: calc(36px + ((100% - 36px - 72px) / 2));
+    right: 0;
+    z-index: 4;
+    width: 20px;
+    height: 58px;
+    display: block;
+    padding: 0;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    background: linear-gradient(180deg, #10131a 0%, #0b0d12 52%, #05070a 100%);
+    cursor: default;
+    overflow: hidden;
+    transform: translateY(-50%);
+    transition:
+        opacity 170ms ease 90ms,
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
+}
+.terminal-control-panel-handle::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0);
+    pointer-events: none;
+    transition: background 160ms ease;
+}
+.terminal-control-panel-handle:hover::before {
+    background: rgba(255, 255, 255, 0.07);
+}
+.terminal-control-panel-handle:active::before {
+    background: rgba(0, 0, 0, 0.10);
+}
+.terminal-control-panel-handle svg {
+    position: relative;
+    z-index: 1;
+    width: 20px;
+    height: 58px;
+    display: block;
+}
+.terminal-control-panel-handle path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.84);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+.terminal-control-panel-handle:hover path {
+    stroke: #ffffff;
+}
+.terminal-shell.is-minimized .terminal-control-panel-handle,
+.terminal-shell.is-closed .terminal-control-panel-handle {
+    opacity: 0;
+    transform: translateY(calc(-50% + 10px));
+    pointer-events: none;
+}
+.terminal-transcript {
+    height: 100%;
+    overflow: hidden;
+}
+.terminal-line,
+.terminal-output-row {
+    min-height: 1.55em;
+}
+.terminal-welcome {
+    color: #ffffff;
+    margin: 0 0 28px;
+}
+.terminal-block {
+    margin-top: 22px;
+}
+.terminal-line.prompt {
+    color: #ffffff;
+    white-space: pre-wrap;
+}
+.terminal-prompt-mark {
+    color: #ffffff;
+}
+.terminal-prompt-mark.is-warning {
+    color: #ff4444;
+}
+.terminal-command-name,
+#typedCommand .terminal-command-name {
+    color: #4169e1;
+}
+.terminal-command-arg,
+#typedCommand .terminal-command-arg {
+    color: #f7e7b4;
+}
+.terminal-command-quote,
+#typedCommand .terminal-command-quote {
+    color: #daa520;
+}
+.terminal-command-path,
+#typedCommand .terminal-command-path {
+    color: #c4b5fd;
+}
 .terminal-output {
-    min-height: 150px;
-    color: var(--orange);
-    white-space: pre-line;
+    min-height: 0;
+    color: #ffffff;
+    white-space: normal;
+}
+.terminal-output-block {
+    display: block;
+}
+.terminal-output-spacer {
+    height: 1.55em;
+    flex: 0 0 1.55em;
+}
+.terminal-line.prompt,
+.terminal-output-row {
+    transform: translateZ(0);
+}
+.terminal-output-row {
+    animation: terminalTextSoftIn 155ms ease-out both;
+    will-change: opacity, transform;
+}
+@keyframes terminalTextSoftIn {
+    from { opacity: 0; transform: translate3d(0, 2px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.terminal-line.prompt.is-waiting {
+    display: none;
+}
+.terminal-block + .terminal-line.prompt.is-active {
+    margin-top: 1.55em;
+}
+.terminal-output-row {
+    color: #ffffff;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.terminal-output-row.is-path {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-left: 40px;
+    color: #daa520;
+}
+.terminal-output-row.is-normal {
+    padding-left: 0;
+    color: #ffffff;
+}
+.terminal-output-row.is-tree-line {
+    padding-left: 0;
+    color: #ffffff;
+}
+.terminal-tree-directory {
+    color: #daa520;
+}
+.terminal-output-row.is-success {
+    padding-left: 0;
+    color: #00ff00;
+}
+.terminal-output-row.is-warning {
+    padding-left: 0;
+    color: #daa520;
+}
+.terminal-output-row.is-error {
+    padding-left: 0;
+    color: #ff4444;
+}
+.terminal-output-path {
+    color: #daa520;
+}
+.terminal-output-icon {
+    flex: 0 0 auto;
+    width: 28px;
+    text-align: center;
+    filter: saturate(1.08);
 }
 .cursor {
     display: inline-block;
-    width: 10px;
-    height: 1.2em;
-    background: var(--cyan);
-    transform: translateY(3px);
+    width: 2px;
+    height: 1.06em;
+    margin-left: 1px;
+    background: #ffffff;
+    transform: translateY(0.14em);
     animation: blink 1s steps(1) infinite;
+}
+.terminal-status-bar {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #10131a 0%, #0b0d12 52%, #05070a 100%);
+    color: #ffffff;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.35;
+    transition:
+        opacity 170ms ease 90ms,
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
+}
+.status-chip span,
+.status-counter {
+    color: #aaaaaa;
+    font-weight: 400;
+}
+.status-chip b {
+    color: #aaaaaa;
+    font-weight: 400;
+}
+.status-counter.is-active {
+    color: #00ffff;
+}
+.status-counter.is-warning {
+    color: #ffd700;
+}
+.status-counter.is-danger {
+    color: #ffa500;
+}
+.status-counter.is-max {
+    color: #ff4444;
 }
 .hero-image-card {
     position: absolute;
@@ -651,6 +916,7 @@ button { font: inherit; cursor: pointer; }
 
 .info-hero-card {
     position: absolute;
+    z-index: 3;
     right: -18px;
     bottom: -32px;
     width: min(380px, 74%);
@@ -658,10 +924,10 @@ button { font: inherit; cursor: pointer; }
     min-height: 380px;
     padding: 0;
     border-radius: 26px;
-    overflow: hidden;
-    background: rgba(15, 17, 24, 0.95);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: var(--shadow);
+    overflow: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .info-preview-window {
@@ -671,257 +937,303 @@ button { font: inherit; cursor: pointer; }
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background:
-        radial-gradient(circle at top, rgba(255,255,255,0.04), transparent 52%),
-        linear-gradient(180deg, rgba(20,20,20,0.985), rgba(12,12,12,0.985));
+    border-radius: 12px;
+    border: 1px solid #1f2023;
+    background: rgba(20, 20, 20, 0.98);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(0, 245, 255, 0.06);
+    transform-origin: center top;
+    transition:
+        height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease;
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    height: 36px;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+.info-hero-card.is-maximized {
+    z-index: 6;
+}
+
+.info-hero-card.is-maximized .info-preview-window {
+    transform: translate(10px, -22px) scale(1.08);
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12);
+}
+
+.info-hero-card.is-maximized .control-icon-maximize {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.info-hero-card.is-maximized .control-icon-restore {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.info-hero-card.is-closed .info-preview-window {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    filter: grayscale(0.2) saturate(0.85);
+    pointer-events: none;
 }
 
 .info-preview-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 40px;
-    padding-left: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    background: linear-gradient(180deg, rgba(20, 23, 31, 0.98), rgba(10, 12, 16, 0.96));
-}
-
-.info-preview-title {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: rgba(255,255,255,0.92);
-    font-size: 0.82rem;
-    min-width: 0;
-}
-
-.info-preview-title img {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    object-fit: cover;
-}
-
-.info-preview-controls {
-    display: inline-flex;
-    align-items: center;
-    align-self: stretch;
-    color: rgba(255,255,255,0.92);
-    height: 40px;
-    overflow: hidden;
-}
-
-.info-preview-controls span {
-    width: 34px;
-    height: 100%;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 34px;
-    vertical-align: middle;
-    transition: background-color 0.18s ease, filter 0.18s ease;
-}
-
-.info-preview-controls span:hover {
-    background: rgba(255,255,255,0.08);
-    filter: brightness(1.06);
-}
-
-.info-preview-controls span:nth-child(1)::before,
-.info-preview-controls span:nth-child(2)::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-}
-
-.info-preview-controls span:nth-child(1)::before {
-    width: 10px;
-    height: 1.6px;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-}
-
-.info-preview-controls span:nth-child(2)::before {
-    width: 9px;
-    height: 8px;
-    border: 1.4px solid currentColor;
-    transform: translate(-50%, -50%);
-}
-
-.info-preview-controls span:nth-child(3)::before,
-.info-preview-controls span:nth-child(3)::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 10px;
-    height: 1.6px;
-    background: currentColor;
-}
-
-.info-preview-controls span:nth-child(3)::before {
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.info-preview-controls span:nth-child(3)::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.info-preview-controls span:nth-child(3):hover {
-    background: #e81123;
-    filter: brightness(1.12);
-}
-
-.info-preview-controls span:nth-child(3):hover::before,
-.info-preview-controls span:nth-child(3):hover::after {
-    background: #ffffff;
+    flex: 0 0 auto;
 }
 
 .info-preview-body {
     position: relative;
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     overflow: hidden;
-    background: transparent;
+    background: rgba(20, 20, 20, 0.98);
+    padding: 10px;
+    transition:
+        opacity 170ms ease 90ms,
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
 }
 
 .info-preview-scroll-viewport {
     position: absolute;
-    inset: 0 14px 0 0;
+    inset: 10px 22px 10px 10px;
     overflow: hidden;
 }
 
 .info-preview-scroll {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 12px 12px 22px 12px;
-    animation: infoPreviewScroll 12s cubic-bezier(0.45, 0.02, 0.2, 1) infinite;
+    inset: 0;
+    will-change: transform;
 }
 
 .info-preview-header {
-    text-align: center;
     color: #FFA500;
-    font-family: Consolas, monospace;
-    font-size: 0.86rem;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.98rem;
     font-weight: 700;
-    margin: 4px 0 10px;
-    letter-spacing: 0.02em;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.info-preview-hero,
+.info-preview-developer-card,
+.info-preview-data-card {
+    background-color: rgba(32, 32, 32, 0.92);
+    border: none;
+    border-radius: 10px;
+}
+
+.info-preview-hero {
+    padding: 14px 16px;
+    margin-bottom: 22px;
+}
+
+.info-preview-hero-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.info-preview-hero-title {
+    color: #ffffff;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.info-preview-badge {
+    margin-left: auto;
+    background-color: #FFA500;
+    color: #111111;
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.info-preview-hero-subtitle {
+    color: #AAAAAA;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.info-preview-pills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.info-preview-pill,
+.info-preview-mini-badge {
+    color: #FFD700;
+    background-color: #151515;
+    border: 1px solid #2f2f2f;
+    border-radius: 999px;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.64rem;
+    font-weight: 700;
+}
+
+.info-preview-pill {
+    padding: 4px 10px;
+}
+
+.info-preview-mini-badge {
+    min-width: 34px;
+    height: 20px;
+    padding: 0 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .info-preview-section {
-    margin-bottom: 14px;
+    margin-bottom: 22px;
 }
 
 .info-preview-section-title {
-    color: #00FFFF;
-    font-family: Consolas, monospace;
+    color: #00D7D7;
+    font-family: Inter, system-ui, sans-serif;
     font-size: 0.78rem;
     font-weight: 700;
-    margin: 0 0 6px;
+    margin: 0 0 8px;
 }
 
-.info-preview-card {
-    background: #2d2d2d;
-    border-radius: 10px;
-    padding: 8px 10px;
-    margin-bottom: 6px;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.025);
-}
-
-.info-preview-dev-name {
-    color: #FFFFFF;
-    font-family: Consolas, monospace;
-    font-size: 0.74rem;
-    font-weight: 700;
-    margin-bottom: 3px;
-}
-
-.info-preview-dev-role {
-    color: #AAAAAA;
-    font-family: Consolas, monospace;
-    font-size: 0.68rem;
-    line-height: 1.35;
-    white-space: pre;
-}
-
-.info-preview-grid-card {
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-
-.info-preview-row {
-    display: flex;
-    align-items: baseline;
+.info-preview-developers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    margin: 4px 0;
-    font-family: Consolas, monospace;
-    font-size: 0.68rem;
-    line-height: 1.3;
 }
 
-.info-preview-row span {
-    width: 120px;
-    flex: 0 0 120px;
+.info-preview-developer-card {
+    min-width: 0;
+    padding: 10px 8px;
+}
+
+.info-preview-developer-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.info-preview-developer-name {
+    color: #ffffff;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.info-preview-developer-role {
+    color: #AAAAAA;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.62rem;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.info-preview-data-card {
+    position: relative;
+    padding: 14px 22px;
+}
+
+.info-preview-data-card::before {
+    content: "";
+    position: absolute;
+    left: 128px;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background: #343434;
+}
+
+.info-preview-data-row {
+    display: grid;
+    grid-template-columns: 98px minmax(0, 1fr);
+    column-gap: 30px;
+    align-items: center;
+    min-height: 40px;
+}
+
+.info-preview-data-row + .info-preview-data-row {
+    border-top: 1px solid #343434;
+}
+
+.info-preview-data-row-multiline {
+    align-items: start;
+    min-height: 72px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.info-preview-key {
     color: #FFD700;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.68rem;
     font-weight: 700;
 }
 
-.info-preview-row b {
-    color: #FFFFFF;
-    font-weight: 400;
-}
-
-.info-preview-details {
-    color: #FFFFFF;
-    font-family: Consolas, monospace;
+.info-preview-value {
+    color: #EDEDED;
+    font-family: Inter, system-ui, sans-serif;
     font-size: 0.68rem;
     line-height: 1.35;
 }
 
 .info-preview-footer {
+    color: #AAAAAA;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.68rem;
     text-align: center;
-    color: #FFA500;
-    font-family: Consolas, monospace;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 10px 0 2px;
+    padding: 4px 0 8px;
 }
 
 .info-preview-scrollbar {
     position: absolute;
-    top: 18px;
-    right: 4px;
-    bottom: 18px;
-    width: 6px;
-    height: auto;
-    border-radius: 999px;
+    top: 22px;
+    right: 10px;
+    bottom: 10px;
+    width: 8px;
+    border-radius: 4px;
     background: rgba(255,255,255,0.06);
 }
 
 .info-preview-thumb {
     position: absolute;
-    top: 6px;
+    top: 0;
     left: 0;
-    width: 6px;
-    height: 42px;
-    border-radius: 999px;
+    width: 8px;
+    height: 44px;
+    border-radius: 4px;
     background: rgba(255,255,255,0.32);
-    animation: infoPreviewThumb 12s cubic-bezier(0.45, 0.02, 0.2, 1) infinite;
+    will-change: transform, height;
 }
 
 .info-preview-cursor {
     position: absolute;
     width: 16px;
     height: 20px;
-    left: 74%;
-    top: 16%;
+    left: 72%;
+    top: 22%;
     pointer-events: none;
     z-index: 3;
-    animation: infoPreviewCursor 12s cubic-bezier(0.45, 0.02, 0.2, 1) infinite;
+    will-change: transform, opacity;
 }
 
 .info-preview-cursor::before {
@@ -933,88 +1245,7 @@ button { font: inherit; cursor: pointer; }
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45));
 }
 
-@keyframes infoPreviewScroll {
-    0%, 18% {
-        transform: translateY(0);
-    }
-    28% {
-        transform: translateY(0);
-    }
-    62% {
-        transform: translateY(-182px);
-    }
-    78% {
-        transform: translateY(-252px);
-    }
-    88% {
-        transform: translateY(-286px);
-    }
-    100% {
-        transform: translateY(-286px);
-    }
-}
 
-@keyframes infoPreviewThumb {
-    0%, 22% {
-        transform: translateY(0);
-    }
-    62% {
-        transform: translateY(82px);
-    }
-    78% {
-        transform: translateY(110px);
-    }
-    88%, 100% {
-        transform: translateY(118px);
-    }
-}
-
-@keyframes infoPreviewCursor {
-    0%, 8% {
-        opacity: 0;
-        transform: translate(0, 0) scale(1);
-    }
-    12% {
-        opacity: 1;
-        transform: translate(-12px, 24px) scale(1);
-    }
-    22% {
-        opacity: 1;
-        transform: translate(-8px, 74px) scale(1);
-    }
-    28% {
-        opacity: 1;
-        transform: translate(22px, 88px) scale(1);
-    }
-    32% {
-        opacity: 1;
-        transform: translate(36px, 88px) scale(0.93);
-    }
-    60% {
-        opacity: 1;
-        transform: translate(36px, 176px) scale(0.93);
-    }
-    68% {
-        opacity: 1;
-        transform: translate(36px, 176px) scale(1);
-    }
-    74% {
-        opacity: 1;
-        transform: translate(18px, 198px) scale(1);
-    }
-    82% {
-        opacity: 1;
-        transform: translate(36px, 214px) scale(0.94);
-    }
-    90% {
-        opacity: 1;
-        transform: translate(36px, 232px) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(20px, 238px) scale(1);
-    }
-}
 
 .section-heading {
     max-width: 820px;
@@ -1390,6 +1621,17 @@ button { font: inherit; cursor: pointer; }
     to { background-position: -40% 0; }
 }
 
+
+@keyframes captionIconBounce {
+    0% { transform: translateY(0); }
+    45% { transform: translateY(-2px); }
+    100% { transform: translateY(-1px); }
+}
+@keyframes terminalWindowClose {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    55% { opacity: 0.72; transform: translateY(8px) scale(0.97); }
+    100% { opacity: 0; transform: translateY(22px) scale(0.92); }
+}
 @media (max-width: 1100px) {
     .hero-grid,
     .about-grid-wide,
@@ -1443,7 +1685,23 @@ button { font: inherit; cursor: pointer; }
         max-width: 420px;
         margin-top: 16px;
     }
-    .hero-visual { padding-bottom: 0; }
+    .hero-visual {
+        min-height: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .terminal-shell {
+        width: 100%;
+        max-width: 420px;
+        height: min(420px, calc(100vw - 32px));
+    }
+    .terminal-topbar { min-height: 34px; }
+    .window-controls { height: 34px; }
+    .window-control { width: 34px; flex-basis: 34px; }
+    .terminal-screen { padding: 14px 12px 78px; font-size: 0.9rem; }
+    .terminal-control-panel-handle { top: calc(34px + ((100% - 34px - 66px) / 2)); width: 20px; height: 58px; }
+    .terminal-status-bar { left: 12px; right: 12px; bottom: 12px; min-height: 48px; font-size: 12px; }
     .command-item {
         grid-template-columns: 1fr;
     }
@@ -4516,4 +4774,1180 @@ button { font: inherit; cursor: pointer; }
     display: inline-flex !important;
     align-items: center !important;
     min-height: 30px !important;
+}
+
+
+/* v11: corrected Info window chrome and native-like behavior */
+.window-app-icon {
+    box-sizing: border-box;
+    flex: 0 0 20px;
+    width: 20px;
+    height: 36px;
+    padding: 10px 4px;
+}
+
+.info-preview-topbar .window-title-group {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 112px);
+}
+
+.info-preview-topbar .window-title-group small {
+    display: block;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: none;
+    text-overflow: clip;
+}
+
+.info-hero-card {
+    transform-origin: center top;
+    transition:
+        height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        min-height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.info-hero-card.is-minimized {
+    aspect-ratio: auto;
+    min-height: 36px;
+    height: 36px;
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    height: 36px;
+    min-height: 36px;
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translateY(10px);
+    transition-delay: 0ms;
+    pointer-events: none;
+}
+
+.info-hero-card.is-closed {
+    pointer-events: none;
+}
+
+.info-hero-card.is-closed .info-preview-window {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+}
+
+.info-hero-card.is-maximized .control-icon-maximize {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.info-hero-card.is-maximized .control-icon-restore {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.info-preview-scroll,
+.info-preview-thumb,
+.info-preview-cursor {
+    animation: none !important;
+}
+
+.info-preview-scroll {
+    transform: translateY(0);
+}
+
+.info-preview-thumb {
+    transform: translateY(0);
+}
+
+.info-preview-cursor {
+    opacity: 0;
+}
+
+.info-preview-scrollbar {
+    overflow: hidden;
+}
+
+
+/* v12 final overrides: larger header icons, lifted info window, main-window-like control animations */
+.window-title-group {
+    gap: 7px;
+    padding-left: 8px;
+}
+
+.window-app-icon {
+    box-sizing: border-box;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 36px;
+    padding: 7px 4px;
+    border-radius: 0;
+    object-fit: contain;
+}
+
+.info-hero-card {
+    bottom: 12px;
+    transform-origin: center top;
+    transition:
+        height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease;
+}
+
+.info-preview-topbar .window-title-group {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    max-width: calc(100% - 110px);
+    padding-left: 8px;
+}
+
+.info-preview-topbar .window-title-group small {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.info-preview-window {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    transform: none;
+}
+
+.info-hero-card.is-minimized {
+    aspect-ratio: auto;
+    min-height: 36px;
+    height: 36px;
+    transform: translateY(8px) scale(0.985);
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    min-height: 36px;
+    height: 36px;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translateY(10px);
+    transition-delay: 0ms;
+    pointer-events: none;
+}
+
+.info-hero-card.is-maximized {
+    z-index: 6;
+    transform: translate(22px, -20px) scale(1.08);
+}
+
+.info-hero-card.is-maximized .info-preview-window {
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12);
+}
+
+.info-hero-card.is-closed {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    filter: grayscale(0.2) saturate(0.85);
+    pointer-events: none;
+}
+
+.info-hero-card.is-closed .info-preview-window {
+    transform: none;
+}
+
+.info-preview-body {
+    transition:
+        opacity 170ms ease 90ms,
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
+}
+
+.info-hero-card.is-maximized .control-icon-maximize {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.info-hero-card.is-maximized .control-icon-restore {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* v13: точечные правки окна "Информация" */
+.info-hero-card {
+    height: 380px;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: hidden;
+    will-change: height, transform, opacity;
+    transition:
+        height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 220ms ease,
+        filter 220ms ease;
+}
+
+.info-preview-window {
+    height: 100%;
+    min-height: 0;
+    will-change: transform, opacity;
+}
+
+.info-preview-body {
+    will-change: opacity, transform;
+    transition:
+        opacity 150ms ease 70ms,
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1) 70ms;
+}
+
+.info-hero-card.is-minimized {
+    height: 36px;
+    min-height: 0;
+    transform: translateY(4px) scale(0.995);
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    height: 36px;
+    min-height: 0;
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+        opacity 100ms ease,
+        transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.info-hero-card:not(.is-minimized) .info-preview-window {
+    height: 100%;
+}
+
+.info-hero-card.is-closed {
+    height: 380px;
+}
+
+/* Скролл-бар из app: QScrollBar:vertical / handle */
+.info-preview-scrollbar {
+    top: 12px;
+    right: 6px;
+    bottom: 12px;
+    width: 8px;
+    border-radius: 4px;
+    background: #191919;
+    opacity: 1;
+}
+
+.info-preview-thumb {
+    left: 0;
+    width: 8px;
+    min-height: 24px;
+    border-radius: 4px;
+    background: #555555;
+    box-shadow: none;
+}
+
+.info-preview-scrollbar:hover .info-preview-thumb {
+    background: #6A6A6A;
+}
+
+/* Copyright как в app: muted, normal, small */
+.info-preview-footer {
+    color: #AAAAAA;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    padding: 18px 0 4px;
+}
+
+
+/* v14: точечно исправлены только окно "Информация": плавное сворачивание, scrollbar и copyright из app */
+.info-hero-card.floating-card,
+.info-hero-card.pulse-card {
+    animation: none !important;
+}
+
+.info-hero-card {
+    height: 380px;
+    min-height: 380px;
+    aspect-ratio: auto;
+    overflow: hidden;
+    transform: none;
+    will-change: height, opacity, filter;
+    transition:
+        height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        min-height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 220ms ease,
+        filter 220ms ease;
+}
+
+.info-preview-window {
+    height: 100%;
+    min-height: 0;
+    transform: none !important;
+    will-change: box-shadow, opacity;
+    transition:
+        box-shadow 260ms ease,
+        opacity 220ms ease,
+        filter 220ms ease;
+}
+
+.info-preview-body {
+    will-change: opacity, transform;
+    transition:
+        opacity 160ms ease 70ms,
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1) 70ms;
+}
+
+.info-hero-card.is-minimized {
+    height: 36px;
+    min-height: 36px;
+    transform: none !important;
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    height: 36px;
+    min-height: 0;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+        opacity 100ms ease,
+        transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.info-hero-card.is-maximized {
+    z-index: 6;
+    transform: translate(22px, -20px) scale(1.08) !important;
+}
+
+.info-hero-card.is-closed {
+    height: 380px;
+    min-height: 380px;
+    opacity: 0;
+    transform: translateY(18px) scale(0.96) !important;
+    filter: grayscale(0.2) saturate(0.85);
+    pointer-events: none;
+}
+
+.info-preview-scrollbar {
+    top: 12px;
+    right: 6px;
+    bottom: 12px;
+    width: 8px;
+    border-radius: 4px;
+    background: rgba(20, 20, 20, 0.47);
+    box-shadow: none;
+    opacity: 1;
+}
+
+.info-preview-thumb {
+    left: 0;
+    width: 8px;
+    min-height: 24px;
+    border-radius: 4px;
+    background: #3a3a3a;
+    box-shadow: none;
+}
+
+.info-preview-scrollbar:hover .info-preview-thumb {
+    background: #4a4a4a;
+}
+
+.info-preview-footer {
+    color: #FFA500;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    padding: 18px 0 4px;
+}
+
+
+/* v15: precise corrections for Info window only */
+/* 1) Corners exactly like main terminal window */
+.info-hero-card,
+.info-preview-window {
+    border-radius: 12px !important;
+}
+
+.info-hero-card {
+    overflow: visible !important;
+    height: 380px;
+    min-height: 380px;
+    aspect-ratio: auto;
+    transform-origin: center top;
+    will-change: transform, height, opacity;
+    transition:
+        height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        min-height 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease;
+}
+
+.info-preview-window {
+    height: 100%;
+    min-height: 0;
+    transform: none !important;
+    overflow: hidden;
+    will-change: opacity, box-shadow;
+    transition:
+        box-shadow 260ms ease,
+        opacity 240ms ease,
+        filter 240ms ease;
+}
+
+.info-preview-body {
+    transition:
+        opacity 170ms ease 90ms,
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
+}
+
+/* 2) Functional button state animations repeat the main terminal window logic */
+.info-hero-card.is-minimized {
+    height: 36px;
+    min-height: 36px;
+    transform: translateY(8px) scale(0.985) !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    height: 36px;
+    min-height: 0;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translateY(10px);
+    transition-delay: 0ms;
+    pointer-events: none;
+}
+
+.info-hero-card.is-maximized {
+    z-index: 6;
+    transform: translate(22px, -20px) scale(1.08) !important;
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12);
+}
+
+.info-hero-card.is-closed {
+    height: 380px;
+    min-height: 380px;
+    opacity: 0;
+    transform: translateY(18px) scale(0.96) !important;
+    filter: grayscale(0.2) saturate(0.85);
+    pointer-events: none;
+}
+
+.info-hero-card.is-maximized .control-icon-maximize {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.info-hero-card.is-maximized .control-icon-restore {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 3) Return smooth native-like cursor for scroll imitation */
+.info-preview-cursor {
+    display: block !important;
+    opacity: 0;
+    width: 16px;
+    height: 20px;
+    left: 0 !important;
+    top: 0 !important;
+    pointer-events: none;
+    z-index: 4;
+    will-change: transform, opacity;
+}
+
+.info-preview-cursor::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #f5f7fb;
+    clip-path: polygon(0 0, 0 100%, 28% 73%, 46% 100%, 58% 94%, 40% 68%, 76% 68%);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45));
+}
+
+
+/* v16: final fixes requested — smoother minimize and natural scroll cursor */
+.info-hero-card.floating-card,
+.info-hero-card.pulse-card {
+    animation: none !important;
+}
+
+.info-hero-card {
+    height: 380px;
+    min-height: 380px;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    will-change: height, min-height, opacity, filter;
+    transition:
+        height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        min-height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 220ms ease,
+        filter 220ms ease;
+}
+
+.info-preview-window {
+    height: 100%;
+    min-height: 0;
+    transform: translate3d(0, 0, 0) !important;
+    backface-visibility: hidden;
+    will-change: height, box-shadow, opacity;
+    transition:
+        height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 260ms ease,
+        opacity 220ms ease,
+        filter 220ms ease;
+}
+
+.info-preview-body {
+    transform: translate3d(0, 0, 0);
+    will-change: opacity, transform;
+    transition:
+        opacity 170ms ease 80ms,
+        transform 300ms cubic-bezier(0.22, 1, 0.36, 1) 80ms;
+}
+
+.info-hero-card.is-minimized {
+    height: 36px;
+    min-height: 36px;
+    transform: translate3d(0, 0, 0) !important;
+}
+
+.info-hero-card.is-minimized .info-preview-window {
+    height: 36px;
+    min-height: 0;
+}
+
+.info-hero-card.is-minimized .info-preview-body {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    transition:
+        opacity 110ms ease,
+        transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.info-preview-scroll,
+.info-preview-thumb,
+.info-preview-cursor {
+    animation: none !important;
+}
+
+.info-preview-cursor {
+    display: block !important;
+    opacity: 0;
+    width: 16px;
+    height: 20px;
+    left: 0 !important;
+    top: 0 !important;
+    pointer-events: none;
+    z-index: 4;
+    will-change: transform, opacity;
+    transition: opacity 120ms linear;
+}
+
+
+/* v17: restore maximize/close button animations for Info window; keep v16 minimize/cursor */
+.info-hero-card {
+    transition:
+        height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        min-height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease !important;
+}
+
+.info-preview-window {
+    transition:
+        height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 260ms ease,
+        opacity 240ms ease,
+        filter 240ms ease !important;
+}
+
+.info-hero-card.is-maximized {
+    z-index: 6;
+    transform: translate(22px, -20px) scale(1.08) !important;
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12);
+}
+
+.info-hero-card.is-maximized .info-preview-window {
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12);
+}
+
+.info-hero-card.is-closed {
+    height: 380px;
+    min-height: 380px;
+    opacity: 0;
+    transform: translateY(18px) scale(0.96) !important;
+    filter: grayscale(0.2) saturate(0.85);
+    pointer-events: none;
+}
+
+.info-hero-card.is-closed .info-preview-window {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) !important;
+}
+
+.info-hero-card.is-maximized .control-icon-maximize {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.info-hero-card.is-maximized .control-icon-restore {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Button icon micro-animations exactly like the main terminal controls */
+#heroInfoWindow .window-control .control-icon {
+    transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#heroInfoWindow .window-control .control-icon img {
+    transition: opacity 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#heroInfoWindow .window-control:hover .control-icon {
+    transform: translateY(-1px);
+}
+
+#heroInfoWindow .window-control:active .control-icon {
+    transform: translateY(1px);
+}
+
+#heroInfoWindow .window-control-min:hover,
+#heroInfoWindow .window-control-max:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+#heroInfoWindow .window-control-min:active,
+#heroInfoWindow .window-control-max:active {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+#heroInfoWindow .window-control-close:hover {
+    background-color: #cf2219;
+}
+
+#heroInfoWindow .window-control-close:active {
+    background-color: #a81c15;
+}
+
+
+/* v18: prevent custom page scrollbar size flash on hard reload */
+.custom-page-scrollbar.is-initializing {
+    opacity: 0;
+}
+
+.custom-page-scrollbar__thumb {
+    will-change: transform, height;
+}
+
+/* v19: unified minimize animation for the main terminal window and the Info window */
+#heroTerminalWindow,
+#heroInfoWindow {
+    --vt-window-minimized-height: 36px;
+    --vt-window-minimize-duration: 360ms;
+    --vt-window-fade-duration: 160ms;
+    --vt-window-minimized-transform: translateY(8px) scale(0.985);
+    overflow: hidden !important;
+    transform-origin: center top;
+    backface-visibility: hidden;
+    will-change: height, min-height, transform, opacity, filter;
+    transition:
+        height var(--vt-window-minimize-duration) linear,
+        min-height var(--vt-window-minimize-duration) linear,
+        transform var(--vt-window-minimize-duration) linear,
+        opacity 240ms linear,
+        filter 240ms linear,
+        box-shadow var(--vt-window-minimize-duration) linear !important;
+}
+
+#heroTerminalWindow .terminal-screen,
+#heroTerminalWindow .terminal-status-bar,
+#heroInfoWindow .info-preview-body {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity var(--vt-window-fade-duration) linear,
+        transform var(--vt-window-fade-duration) linear !important;
+}
+
+#heroTerminalWindow.is-minimized,
+#heroInfoWindow.is-minimized {
+    height: var(--vt-window-minimized-height) !important;
+    min-height: var(--vt-window-minimized-height) !important;
+    transform: var(--vt-window-minimized-transform) !important;
+    overflow: hidden !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05) !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-window {
+    height: var(--vt-window-minimized-height) !important;
+    min-height: var(--vt-window-minimized-height) !important;
+    overflow: hidden !important;
+}
+
+#heroTerminalWindow.is-minimized .terminal-screen,
+#heroTerminalWindow.is-minimized .terminal-status-bar,
+#heroInfoWindow.is-minimized .info-preview-body {
+    background: var(--vt-info-window-content-bg) !important;
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+    transition-delay: 0ms !important;
+    pointer-events: none;
+}
+
+#heroInfoWindow:not(.is-minimized) .info-preview-window {
+    height: 100% !important;
+}
+
+/* v20: remove min-height interpolation so the minimize action starts immediately */
+#heroTerminalWindow,
+#heroInfoWindow {
+    transition:
+        height var(--vt-window-minimize-duration) linear,
+        transform var(--vt-window-minimize-duration) linear,
+        opacity 240ms linear,
+        filter 240ms linear,
+        box-shadow var(--vt-window-minimize-duration) linear !important;
+}
+
+#heroInfoWindow {
+    min-height: 0 !important;
+}
+
+#heroTerminalWindow.is-minimized,
+#heroInfoWindow.is-minimized {
+    min-height: var(--vt-window-minimized-height) !important;
+}
+
+#heroInfoWindow .info-preview-window {
+    overflow: hidden !important;
+    transition:
+        height var(--vt-window-minimize-duration) linear,
+        opacity 240ms linear,
+        filter 240ms linear,
+        box-shadow var(--vt-window-minimize-duration) linear !important;
+}
+
+/* v21: requested minimize colors and directional Info-window collapse */
+#heroTerminalWindow {
+    background: #000000 !important;
+}
+
+#heroTerminalWindow.is-minimized {
+    background: #000000 !important;
+}
+
+#heroInfoWindow {
+    /* Keep the bottom edge fixed so minimize goes from top to bottom;
+       expansion is the reverse. */
+    top: auto !important;
+    bottom: 12px !important;
+    --vt-window-minimized-transform: translate3d(0, 0, 0) scale(1);
+}
+
+#heroInfoWindow.is-minimized {
+    transform: translate3d(0, 0, 0) scale(1) !important;
+    background: #3a3a3a !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-window {
+    background: #3a3a3a !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-body {
+    background: #3a3a3a !important;
+}
+
+/* Do not alter title-bar chrome/colors while the body/background color changes. */
+#heroTerminalWindow .windows-topbar,
+#heroInfoWindow .windows-topbar {
+    background: linear-gradient(180deg, #151820 0%, #101219 52%, #07090d 100%) !important;
+}
+
+/* v22: fix Info-window restore direction and match transition color to the content container */
+#heroInfoWindow {
+    --vt-info-window-full-height: 380px;
+    --vt-info-window-minimized-height: 36px;
+    --vt-info-window-content-bg: rgba(20, 20, 20, 0.98);
+    top: auto !important;
+    bottom: 12px !important;
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+    transform-origin: center bottom !important;
+    will-change: height, opacity, filter, box-shadow;
+    transition:
+        height var(--vt-window-minimize-duration) linear,
+        opacity 240ms linear,
+        filter 240ms linear,
+        box-shadow var(--vt-window-minimize-duration) linear !important;
+}
+
+#heroInfoWindow .info-preview-window {
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition:
+        opacity 240ms linear,
+        filter 240ms linear,
+        box-shadow var(--vt-window-minimize-duration) linear !important;
+}
+
+#heroInfoWindow .info-preview-body {
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition: opacity var(--vt-window-fade-duration) linear !important;
+}
+
+#heroInfoWindow.is-minimized {
+    height: var(--vt-info-window-minimized-height) !important;
+    min-height: var(--vt-info-window-minimized-height) !important;
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-window {
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    background: var(--vt-info-window-content-bg) !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-body {
+    opacity: 0 !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition-delay: 0ms !important;
+    pointer-events: none;
+}
+
+#heroInfoWindow.is-maximized {
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    transform: translate(22px, -20px) scale(1.08) !important;
+}
+
+#heroInfoWindow.is-closed {
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+}
+
+#heroInfoWindow .windows-topbar {
+    background: linear-gradient(180deg, #151820 0%, #101219 52%, #07090d 100%) !important;
+}
+
+/* v23: Info window minimize restore without flicker; restore max/close like main window */
+#heroInfoWindow {
+    --vt-info-window-full-height: 380px;
+    --vt-info-window-minimized-height: 36px;
+    --vt-info-window-content-bg: rgba(20, 20, 20, 0.98);
+    top: auto !important;
+    bottom: 12px !important;
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+    transform-origin: center top !important;
+    backface-visibility: hidden;
+    contain: paint;
+    will-change: height, transform, opacity, filter, box-shadow;
+    transition:
+        height var(--vt-window-minimize-duration) linear,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease !important;
+}
+
+#heroInfoWindow .info-preview-window {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+    backface-visibility: hidden;
+    will-change: opacity, filter, box-shadow;
+    transition:
+        opacity 240ms ease,
+        filter 240ms ease,
+        box-shadow 260ms ease !important;
+}
+
+#heroInfoWindow .info-preview-body {
+    background: var(--vt-info-window-content-bg) !important;
+    opacity: 1 !important;
+    visibility: visible;
+    transform: translate3d(0, 0, 0) !important;
+    backface-visibility: hidden;
+    will-change: opacity;
+    transition:
+        opacity 120ms linear 130ms,
+        visibility 0s linear 0s !important;
+}
+
+#heroInfoWindow.is-minimized {
+    height: var(--vt-info-window-minimized-height) !important;
+    min-height: var(--vt-info-window-minimized-height) !important;
+    background: var(--vt-info-window-content-bg) !important;
+    transform: translate3d(0, 0, 0) !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05) !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-window {
+    height: 100% !important;
+    min-height: 0 !important;
+    background: var(--vt-info-window-content-bg) !important;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(0, 245, 255, 0.05) !important;
+}
+
+#heroInfoWindow.is-minimized .info-preview-body {
+    background: var(--vt-info-window-content-bg) !important;
+    opacity: 0 !important;
+    visibility: hidden;
+    transform: translate3d(0, 0, 0) !important;
+    transition:
+        opacity 70ms linear,
+        visibility 0s linear 70ms !important;
+    pointer-events: none;
+}
+
+#heroInfoWindow.is-maximized {
+    z-index: 6;
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    transform: translate(22px, -20px) scale(1.08) !important;
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12) !important;
+}
+
+#heroInfoWindow.is-maximized .info-preview-window {
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12) !important;
+}
+
+#heroInfoWindow.is-closed {
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    opacity: 0 !important;
+    transform: translateY(18px) scale(0.96) !important;
+    filter: grayscale(0.2) saturate(0.85) !important;
+    pointer-events: none;
+}
+
+#heroInfoWindow.is-closed .info-preview-window {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+}
+
+#heroInfoWindow .windows-topbar {
+    background: linear-gradient(180deg, #151820 0%, #101219 52%, #07090d 100%) !important;
+}
+
+#heroInfoWindow .window-control {
+    transition: background-color 160ms ease !important;
+}
+
+#heroInfoWindow .window-control .control-icon {
+    transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#heroInfoWindow .window-control .control-icon img {
+    transition: opacity 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#heroInfoWindow .window-control:hover .control-icon {
+    transform: translateY(-1px) !important;
+}
+
+#heroInfoWindow .window-control:active .control-icon {
+    transform: translateY(1px) !important;
+}
+
+#heroInfoWindow .window-control-min:hover,
+#heroInfoWindow .window-control-max:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+#heroInfoWindow .window-control-min:active,
+#heroInfoWindow .window-control-max:active {
+    background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+#heroInfoWindow .window-control-close:hover {
+    background-color: #cf2219 !important;
+}
+
+#heroInfoWindow .window-control-close:active {
+    background-color: #a81c15 !important;
+}
+
+#heroInfoWindow.is-maximized .control-icon-maximize {
+    opacity: 0 !important;
+    transform: scale(0.9) !important;
+}
+
+#heroInfoWindow.is-maximized .control-icon-restore {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+
+
+/* v24: restore Info window maximize/restore and close animations EXACTLY like the main window */
+#heroInfoWindow {
+    --vt-info-window-full-height: 380px;
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    transform-origin: center top !important;
+    will-change: height, transform, opacity, filter, box-shadow;
+    transition:
+        height var(--vt-window-minimize-duration) linear,
+        transform var(--vt-window-minimize-duration) linear,
+        opacity 240ms linear,
+        filter 240ms linear,
+        box-shadow var(--vt-window-minimize-duration) linear !important;
+}
+
+#heroInfoWindow:not(.is-minimized):not(.is-maximized):not(.is-closed) {
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+#heroInfoWindow .info-preview-window {
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 1 !important;
+    transition:
+        box-shadow var(--vt-window-minimize-duration) linear,
+        opacity 240ms linear,
+        filter 240ms linear !important;
+}
+
+#heroInfoWindow.is-maximized {
+    z-index: 6 !important;
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    transform: translate(22px, -20px) scale(1.08) !important;
+    opacity: 1 !important;
+    filter: none !important;
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12) !important;
+}
+
+#heroInfoWindow.is-maximized .info-preview-window {
+    box-shadow: 0 36px 86px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 245, 255, 0.12) !important;
+}
+
+#heroInfoWindow.is-closed {
+    height: var(--vt-info-window-full-height) !important;
+    min-height: 0 !important;
+    transform: translateY(18px) scale(0.96) !important;
+    opacity: 0 !important;
+    filter: grayscale(0.2) saturate(0.85) !important;
+    pointer-events: none !important;
+}
+
+#heroInfoWindow.is-closed .info-preview-window {
+    transform: translate3d(0, 0, 0) !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+#heroInfoWindow .window-control {
+    transition: background-color 160ms ease !important;
+}
+
+#heroInfoWindow .window-control .control-icon {
+    position: relative !important;
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
+    pointer-events: none !important;
+    transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#heroInfoWindow .window-control .control-icon img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: block !important;
+    transition: opacity 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#heroInfoWindow .window-control:hover .control-icon {
+    transform: translateY(-1px) !important;
+}
+
+#heroInfoWindow .window-control:active .control-icon {
+    transform: translateY(1px) !important;
+}
+
+#heroInfoWindow .window-control-min:hover,
+#heroInfoWindow .window-control-max:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+#heroInfoWindow .window-control-min:active,
+#heroInfoWindow .window-control-max:active {
+    background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+#heroInfoWindow .window-control-close:hover {
+    background-color: #cf2219 !important;
+}
+
+#heroInfoWindow .window-control-close:active {
+    background-color: #a81c15 !important;
+}
+
+#heroInfoWindow .control-icon-restore {
+    opacity: 0 !important;
+    transform: scale(0.9) !important;
+}
+
+#heroInfoWindow.is-maximized .control-icon-maximize {
+    opacity: 0 !important;
+    transform: scale(0.9) !important;
+}
+
+#heroInfoWindow.is-maximized .control-icon-restore {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+.terminal-section-title {
+    color: #daa520;
+}
+.terminal-section-rule {
+    color: #ffffff;
+}
+
+/* v21: keep transient search/count status as one stable terminal row while its path changes */
+.terminal-output-row.is-live-progress {
+    animation: none !important;
+    will-change: auto !important;
 }

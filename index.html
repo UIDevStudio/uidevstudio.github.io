@@ -63,105 +63,152 @@
                 </div>
 
                 <div class="hero-visual reveal delay-1">
-                    <div class="terminal-shell live-terminal">
+                    <div class="terminal-shell live-terminal" id="heroTerminalWindow">
                         <div class="terminal-topbar windows-topbar">
                             <div class="window-title-group">
                                 <img class="window-app-icon" src="static/img/brand-terminal.png" alt="ViperTerm">
                                 <small>ViperTerm</small>
                             </div>
-                            <div class="window-controls" aria-hidden="true">
-                                <span></span><span></span><span></span>
+                            <div class="window-controls" aria-label="Управление окном терминала">
+                                <button class="window-control window-control-min" type="button" data-window-action="minimize" aria-label="Свернуть">
+                                    <span class="control-icon"><img src="static/img/window_controls/minimize.svg" alt=""></span>
+                                </button>
+                                <button class="window-control window-control-max" type="button" data-window-action="maximize" aria-label="Развернуть">
+                                    <span class="control-icon">
+                                        <img class="control-icon-maximize" src="static/img/window_controls/maximize.svg" alt="">
+                                        <img class="control-icon-restore" src="static/img/window_controls/restore.svg" alt="">
+                                    </span>
+                                </button>
+                                <button class="window-control window-control-close" type="button" data-window-action="close" aria-label="Закрыть">
+                                    <span class="control-icon"><img src="static/img/window_controls/close.svg" alt=""></span>
+                                </button>
                             </div>
                         </div>
-                        <div class="terminal-screen">
-                            <div class="terminal-line dim">Welcome to ViperTerm.</div>
-                            <div class="terminal-line prompt"><span>&gt;&gt;&gt;</span> <span id="typedCommand"></span><span class="cursor"></span></div>
-                            <div class="terminal-output" id="typedOutput"></div>
+                        <div class="terminal-screen" id="terminalScreen">
+                            <div class="terminal-transcript" id="terminalTranscript">
+                                <div class="terminal-line terminal-welcome">Welcome to ViperTerm.</div>
+                                <div class="terminal-line prompt is-active" id="terminalPromptLine"><span class="terminal-prompt-mark">&gt;&gt;&gt;</span> <span id="typedCommand"></span><span class="cursor"></span></div>
+                                <div class="terminal-output" id="typedOutput"></div>
+                            </div>
+                        </div>
+                        <button class="terminal-control-panel-handle" type="button" aria-label="Панель управления" tabindex="-1">
+                            <svg viewBox="0 0 20 58" aria-hidden="true" focusable="false">
+                                <path d="M14.9 22.8 L7.9 29 L14.9 35.2"></path>
+                            </svg>
+                        </button>
+                        <div class="terminal-status-bar" aria-label="Статус терминала">
+                            <span class="status-chip"><span>mode:</span> <b>classic</b></span>
+                            <span class="status-counter" id="terminalCounter">0 / 100</span>
+                        </div>
+                    </div>
+
+                    
+<div class="hero-image-card floating-card pulse-card info-hero-card" id="heroInfoWindow">
+    <div class="info-preview-window">
+        <div class="terminal-topbar windows-topbar info-preview-topbar">
+            <div class="window-title-group">
+                <img class="window-app-icon" src="static/img/brand-terminal.png" alt="ViperTerm">
+                <small>Информация</small>
+            </div>
+            <div class="window-controls" aria-label="Управление окном информации">
+                <button class="window-control window-control-min" type="button" data-info-window-action="minimize" aria-label="Свернуть">
+                    <span class="control-icon"><img src="static/img/window_controls/minimize.svg" alt=""></span>
+                </button>
+                <button class="window-control window-control-max" type="button" data-info-window-action="maximize" aria-label="Развернуть">
+                    <span class="control-icon">
+                        <img class="control-icon-maximize" src="static/img/window_controls/maximize.svg" alt="">
+                        <img class="control-icon-restore" src="static/img/window_controls/restore.svg" alt="">
+                    </span>
+                </button>
+                <button class="window-control window-control-close" type="button" data-info-window-action="close" aria-label="Закрыть">
+                    <span class="control-icon"><img src="static/img/window_controls/close.svg" alt=""></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="info-preview-body">
+            <div class="info-preview-scroll-viewport">
+                <div class="info-preview-scroll" id="infoPreviewScroll">
+                    <div class="info-preview-header">О ПРОЕКТЕ</div>
+
+                    <div class="info-preview-hero">
+                        <div class="info-preview-hero-head">
+                            <div class="info-preview-hero-title">Рабочая среда команд</div>
+                            <div class="info-preview-badge">v2.3</div>
+                        </div>
+                        <div class="info-preview-hero-subtitle">Фокусированная настольная оболочка для запуска команд, работы с файлами и быстрого доступа к повседневным инструментам терминала.</div>
+                        <div class="info-preview-pills">
+                            <span class="info-preview-pill">Команды</span>
+                            <span class="info-preview-pill">Редактор</span>
+                            <span class="info-preview-pill">Хоткеи</span>
                         </div>
                     </div>
 
-                    <div class="hero-image-card floating-card pulse-card info-hero-card">
-                        <div class="info-preview-window">
-                            <div class="info-preview-topbar">
-                                <div class="info-preview-title">
-                                    <img src="static/img/brand-terminal.png" alt="ViperTerm">
-                                    <span>Информация</span>
+                    <div class="info-preview-section">
+                        <div class="info-preview-section-title">КОМАНДА</div>
+                        <div class="info-preview-developers-grid">
+                            <div class="info-preview-developer-card">
+                                <div class="info-preview-developer-head">
+                                    <span class="info-preview-mini-badge">UI</span>
+                                    <div class="info-preview-developer-name">Alexey Lebedev</div>
                                 </div>
-                                <div class="info-preview-controls" aria-hidden="true">
-                                    <span></span><span></span><span></span>
-                                </div>
+                                <div class="info-preview-developer-role">Frontend-разработчик</div>
                             </div>
-
-                            <div class="info-preview-body">
-                                <div class="info-preview-scroll-viewport">
-                                    <div class="info-preview-scroll">
-                                        <div class="info-preview-header">ИНФОРМАЦИЯ О ПРОЕКТЕ</div>
-
-                                        <div class="info-preview-section">
-                                            <div class="info-preview-section-title">РАЗРАБОТЧИКИ</div>
-
-                                            <div class="info-preview-card">
-                                                <div class="info-preview-dev-name">Лебедев Алексей</div>
-                                                <div class="info-preview-dev-role">    Frontend разработчик</div>
-                                            </div>
-
-                                            <div class="info-preview-card">
-                                                <div class="info-preview-dev-name">Алексеенко Максим</div>
-                                                <div class="info-preview-dev-role">    Backend разработчик</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="info-preview-section">
-                                            <div class="info-preview-section-title">О ПРОЕКТЕ</div>
-
-                                            <div class="info-preview-card info-preview-grid-card">
-                                                <div class="info-preview-row"><span>Название:</span><b>ViperTerm</b></div>
-                                                <div class="info-preview-row"><span>Тип:</span><b>Desktop Application</b></div>
-                                                <div class="info-preview-row"><span>Редакция:</span><b>Python Edition</b></div>
-                                                <div class="info-preview-row"><span>Версия:</span><b>[Version 2.0]</b></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="info-preview-section">
-                                            <div class="info-preview-section-title">ТЕХНОЛОГИИ</div>
-
-                                            <div class="info-preview-card info-preview-grid-card">
-                                                <div class="info-preview-row"><span>Язык:</span><b>Python 3.x</b></div>
-                                                <div class="info-preview-row"><span>GUI фреймворк:</span><b>CustomTkinter</b></div>
-                                                <div class="info-preview-row"><span>Интерпретатор:</span><b>python.exe</b></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="info-preview-section">
-                                            <div class="info-preview-section-title">СИСТЕМА</div>
-
-                                            <div class="info-preview-card info-preview-grid-card">
-                                                <div class="info-preview-row"><span>ОС:</span><b>Windows 11</b></div>
-                                                <div class="info-preview-row"><span>Платформа:</span><b>win32</b></div>
-                                                <div class="info-preview-row"><span>Архитектура:</span><b>AMD64</b></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="info-preview-section">
-                                            <div class="info-preview-section-title">ПОДРОБНЕЕ</div>
-
-                                            <div class="info-preview-card">
-                                                <div class="info-preview-details">Документация к выпущенному продукту</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="info-preview-footer">© 2026 UIDevStudio</div>
-                                    </div>
+                            <div class="info-preview-developer-card">
+                                <div class="info-preview-developer-head">
+                                    <span class="info-preview-mini-badge">Core</span>
+                                    <div class="info-preview-developer-name">Maxim Alekseenko</div>
                                 </div>
-
-                                <div class="info-preview-scrollbar">
-                                    <div class="info-preview-thumb"></div>
-                                </div>
-
-                                <div class="info-preview-cursor" aria-hidden="true"></div>
+                                <div class="info-preview-developer-role">Backend-разработчик</div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="info-preview-section">
+                        <div class="info-preview-section-title">ПРОЕКТ</div>
+                        <div class="info-preview-data-card">
+                            <div class="info-preview-data-row"><span class="info-preview-key">Назначение</span><span class="info-preview-value">Локальный рабочий процесс</span></div>
+                            <div class="info-preview-data-row"><span class="info-preview-key">Тип</span><span class="info-preview-value">Desktop application</span></div>
+                            <div class="info-preview-data-row"><span class="info-preview-key">Редакция</span><span class="info-preview-value">Python Edition</span></div>
+                        </div>
+                    </div>
+
+                    <div class="info-preview-section">
+                        <div class="info-preview-section-title">СРЕДА ВЫПОЛНЕНИЯ</div>
+                        <div class="info-preview-data-card">
+                            <div class="info-preview-data-row"><span class="info-preview-key">Интерпретатор</span><span class="info-preview-value">python.exe</span></div>
+                            <div class="info-preview-data-row"><span class="info-preview-key">GUI</span><span class="info-preview-value">PySide6</span></div>
+                            <div class="info-preview-data-row"><span class="info-preview-key">Python</span><span class="info-preview-value">3.x</span></div>
+                        </div>
+                    </div>
+
+                    <div class="info-preview-section">
+                        <div class="info-preview-section-title">СИСТЕМА</div>
+                        <div class="info-preview-data-card">
+                            <div class="info-preview-data-row"><span class="info-preview-key">ОС</span><span class="info-preview-value">Windows 11</span></div>
+                            <div class="info-preview-data-row"><span class="info-preview-key">Архитектура</span><span class="info-preview-value">AMD64</span></div>
+                            <div class="info-preview-data-row"><span class="info-preview-key">Платформа</span><span class="info-preview-value">win32</span></div>
+                        </div>
+                    </div>
+
+                    <div class="info-preview-section">
+                        <div class="info-preview-section-title">ПОДРОБНЕЕ</div>
+                        <div class="info-preview-data-card info-preview-data-card-wide">
+                            <div class="info-preview-data-row info-preview-data-row-multiline"><span class="info-preview-key">Релизы</span><span class="info-preview-value">Нажмите карточку ViperTerm, чтобы открыть репозиторий и релизы</span></div>
+                            <div class="info-preview-data-row info-preview-data-row-multiline"><span class="info-preview-key">Авторы</span><span class="info-preview-value">Нажмите карточки разработчиков, чтобы открыть профили GitHub</span></div>
+                        </div>
+                    </div>
+
+                    <div class="info-preview-footer">© 2026 UIDevStudio</div>
+                </div>
+            </div>
+
+            <div class="info-preview-scrollbar"><div class="info-preview-thumb"></div></div>
+            <div class="info-preview-cursor" aria-hidden="true"></div>
+        </div>
+    </div>
+</div>
+</div>
                 </div>
             </div>
         </section>
@@ -516,10 +563,10 @@
                         <div class="download-hero-copy">
                             <div class="mini-label">БЫСТРЫЙ СТАРТ</div>
                             <h3 id="currentReleaseTitle">Мгновенный запуск через прямую загрузку</h3>
-                            <p id="currentReleaseDescription">Версия 2.1 обновляет интерфейс ViperTerm: кастомная рамка окна, собственные кнопки управления, вкладки свернутых редакторов и улучшенная верхняя панель.</p>
+                            <p id="currentReleaseDescription">Версия 2.3 обновляет интерфейс ViperTerm: кастомная рамка окна, собственные кнопки управления, вкладки свернутых редакторов и улучшенная верхняя панель.</p>
                         </div>
                         <div class="download-hero-actions button-pair">
-                            <a class="btn btn-primary btn-equal" id="quickDownloadLink" href="#downloads">Скачать</a>
+                            <a class="btn btn-primary btn-equal" id="quickDownloadLink" href="https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.3/ViperTerm_Installer.exe">Скачать</a>
                             <a class="btn btn-secondary btn-equal" id="allReleasesLink" href="#github">Все релизы</a>
                         </div>
                     </div>
