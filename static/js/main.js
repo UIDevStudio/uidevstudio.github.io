@@ -80,6 +80,7 @@ const PYTHON_SCRIPT_SOURCE_OPTIONS = new Set(['-c', '-m']);
 const PYTHON_VALUE_OPTIONS = new Set(['-W', '-X', '--check-hash-based-pycs']);
 const WRITE_COMMANDS = new Set(['write']);
 const REMOVE_COMMANDS = new Set(['remove']);
+const ARCHIVE_COMMANDS = new Set(['archive']);
 
 const terminalSteps = [
   {
@@ -203,6 +204,18 @@ const terminalSteps = [
           { type: 'table_row', icon: '📄', left: 'terminal_view.py', right: '1 917 lines' },
         ],
       },
+    ],
+  },
+  {
+    command: 'archive -c[release.zip] app --summary',
+    rows: [
+      { type: 'warning', text: ' [i] Creating archive...' },
+      { type: 'normal', text: '' },
+      { type: 'normal', text: '  📦 release.zip' },
+      { type: 'normal', text: '  📁 app' },
+      { type: 'normal', text: '' },
+      { type: 'success', text: '   Archive created successfully' },
+      { type: 'warning', text: '📊 Total: 1 source, ZIP archive ready' },
     ],
   },
   {

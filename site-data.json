@@ -1,32 +1,32 @@
 {
   "app_name": "ViperTerm",
-  "version": "2.3",
+  "version": "2.5",
   "tagline": "Терминал с графическим интерфейсом",
   "github_url": "https://github.com/UIDevStudio/ViperTerm",
   "releases_url": "https://github.com/UIDevStudio/ViperTerm/releases",
   "downloads": {
-    "quick_launch_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.3/ViperTerm_Installer.exe",
+    "quick_launch_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.5/ViperTerm_Installer.exe",
     "virustotal_url": "https://www.virustotal.com",
     "current_release_hero_title": "Мгновенный запуск через прямую загрузку",
-    "current_release_hero_description": "Кнопка «Запуск» и кнопка «Скачать» в этом блоке ведут сразу к скачиванию версии 2.3 с полноценным установщиком.",
+    "current_release_hero_description": "Кнопка «Запуск» и кнопка «Скачать» в этом блоке ведут сразу к скачиванию версии 2.5 с полноценным установщиком.",
     "current_release": {
-      "version": "Версия 2.3",
+      "version": "Версия 2.5",
       "status": "Актуальная версия",
-      "description": "ViperTerm 2.3 — актуальный релиз с автодополнением команд, аргументов и путей, inline-подсказками прямо в строке ввода, обновлённой боковой панелью управления, улучшенными настройками поведения и визуальным обновлением интерфейса. Доступны Installer Edition для установки и Portable Edition для запуска без установки.",
-      "release_url": "https://github.com/UIDevStudio/ViperTerm/releases/tag/terminal_v2.3",
+      "description": "ViperTerm 2.5 — крупное функционально-техническое обновление. Добавлена команда archive для создания, распаковки, просмотра и проверки ZIP-архивов; расширены пакетные операции с файлами и папками; параметр --summary появился у ls, tree, find и count. Улучшены перенос и перестроение вывода при изменении размера окна, навигация по истории и большим результатам, горячие клавиши, автодополнение, парсинг аргументов, локализация настроек и стабильность интерфейса.",
+      "release_url": "https://github.com/UIDevStudio/ViperTerm/releases/tag/terminal_v2.5",
       "options": [
         {
           "title": "Installer Edition",
-          "description": "Рекомендуемый вариант для большинства пользователей. Устанавливает версию 2.3 в систему, создаёт привычный сценарий запуска и лучше подходит для повседневной работы на одном компьютере.",
-          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.3/ViperTerm_Installer.exe",
+          "description": "Рекомендуемый вариант для большинства пользователей. Устанавливает ViperTerm 2.5 в систему и подходит для постоянной работы на одном компьютере.",
+          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.5/ViperTerm_Installer.exe",
           "download_label": "Скачать",
           "recommended": true,
           "download_name": "ViperTerm_Installer.exe"
         },
         {
           "title": "Portable Edition",
-          "description": "Подходит для запуска версии 2.3 без установки. Приложение можно хранить в любой папке, переносить между устройствами и использовать как самостоятельный исполняемый файл.",
-          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.3/ViperTerm.exe",
+          "description": "ViperTerm 2.5 без установки. Один исполняемый файл можно хранить в любой папке, переносить между устройствами и запускать напрямую.",
+          "download_url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.5/ViperTerm.exe",
           "download_label": "Скачать",
           "download_name": "ViperTerm.exe"
         }
@@ -34,6 +34,40 @@
     },
     "current_release_note": "",
     "archive_versions": [
+      {
+        "version": "v2.4",
+        "status": "Архивная версия",
+        "release_url": "https://github.com/UIDevStudio/ViperTerm/releases/tag/terminal_v2.4",
+        "download_label": "Installer / Portable",
+        "download_name": "",
+        "downloads": [
+          {
+            "label": "Installer",
+            "url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.4/ViperTerm_Installer.exe"
+          },
+          {
+            "label": "Portable",
+            "url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.4/ViperTerm.exe"
+          }
+        ]
+      },
+      {
+        "version": "v2.3",
+        "status": "Архивная версия",
+        "release_url": "https://github.com/UIDevStudio/ViperTerm/releases/tag/terminal_v2.3",
+        "download_label": "Installer / Portable",
+        "download_name": "",
+        "downloads": [
+          {
+            "label": "Installer",
+            "url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.3/ViperTerm_Installer.exe"
+          },
+          {
+            "label": "Portable",
+            "url": "https://github.com/UIDevStudio/ViperTerm/releases/download/terminal_v2.3/ViperTerm.exe"
+          }
+        ]
+      },
       {
         "version": "v2.2",
         "status": "Архивная версия",
@@ -255,6 +289,10 @@
         {
           "name": "rename",
           "description": "Переименовывает объект."
+        },
+        {
+          "name": "archive",
+          "description": "Создаёт, распаковывает, просматривает и проверяет ZIP-архивы."
         }
       ]
     },
